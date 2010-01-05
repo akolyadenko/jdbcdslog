@@ -16,9 +16,14 @@ import javax.sql.PooledConnection;
 import javax.sql.XAConnection;
 import javax.sql.XADataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource, ConnectionPoolDataSource
 	, Serializable {
 
+	static Logger logger = LoggerFactory.getLogger(ConnectionPoolXADataSourceProxy.class);
+	
 	Object targetDS = null;
 
 	public ConnectionPoolXADataSourceProxy() throws JDBCDSLogException {
@@ -138,13 +143,62 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 			throw new SQLException("targetDS doesn't implement ConnectionPoolDataSource interface.");
 	}
 	
-	public void setURL(String url) {
+	void invokeTargetSetMethod(String m, Object p) {
 		try {
-		Method m = targetDS.getClass().getMethod("setURL", new Class[]{String.class});
-		if(m != null)
-			m.invoke(targetDS, new Object[]{url});
-		} catch(Exception e) {
-			e.printStackTrace();
+			Method me = targetDS.getClass().getMethod(m,
+					new Class[] { String.class });
+			if (me != null)
+				me.invoke(targetDS, new Object[] { p });
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
+	}
+	
+	public void setURL(String p) {
+		invokeTargetSetMethod("setURL", p);
+	}
+	
+	public void setDatabaseName(String p) {
+		invokeTargetSetMethod("setDatabaseName", p);
+	}
+	
+	public void setDescription(String p) {
+		invokeTargetSetMethod("setDescription", p);
+	}
+	
+	public void setDataSourceName(String p) {
+		invokeTargetSetMethod("setDataSourceName", p);
+	}
+	
+	public void setDriverType(String p) {
+		invokeTargetSetMethod("setDriverType", p);
+	}
+	
+	public void setNetworkProtocol(String p) {
+		invokeTargetSetMethod("setNetworkProtocol", p);
+	}
+	
+	public void setPassword(String p) {
+		invokeTargetSetMethod("setPassword", p);
+	}
+	
+	public void setPortNumber(int p) {
+		invokeTargetSetMethod("setPortNumber", new Integer(p));
+	}
+	
+	public void setServerName(String p) {
+		invokeTargetSetMethod("setServerName", p);
+	}
+	
+	public void setServiceName(String p) {
+		invokeTargetSetMethod("setServiceName", p);
+	}
+	
+	public void setTNSEntryName(String p) {
+		invokeTargetSetMethod("setTNSEntryName", p);
+	}
+	
+	public void setUser(String p) {
+		invokeTargetSetMethod("setUser", p);
 	}
 }
