@@ -25,7 +25,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 	static List methodsBlackList = Arrays.asList(new String[]{"getAutoCommit", "getCatalog", "getTypeMap"
 			, "clearWarnings", "setAutoCommit", "getFetchSize", "setFetchSize", "commit"});
 	
-	static String sql = null;
+	String sql = null;
 	
 	Object target = null;
 	
