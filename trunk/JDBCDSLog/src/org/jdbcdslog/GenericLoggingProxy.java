@@ -95,7 +95,6 @@ public class GenericLoggingProxy implements InvocationHandler  {
 	}
 
 	private Object wrapByGenericProxy(Object r, Class interf, String sql) {
-//		System.out.println("wrap " + r.getClass().getName() + " for " + interf.getName());
 		if(!(r instanceof Statement))
 			sql = null;
 		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{interf}, 
