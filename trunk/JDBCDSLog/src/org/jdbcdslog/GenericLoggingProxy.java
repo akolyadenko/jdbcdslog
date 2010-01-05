@@ -40,8 +40,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 	
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName() + "(target.toString=" 
-			+ target.toString() + ")";
+		String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 		try { 
 			boolean writeLog = method.getDeclaringClass() != Object.class && !methodsBlackList.contains(method.getName());
 			if (writeLog) {
