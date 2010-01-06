@@ -27,7 +27,7 @@
             <layout>default</layout>
             <id>projectlibs</id>
             <name>projectlibs</name>
-            <url>lib</url>
+            <url>file:///${basedir}/lib</url>
         </repository>
     </repositories> 
 </project>

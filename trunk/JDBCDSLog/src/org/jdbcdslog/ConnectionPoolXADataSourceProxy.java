@@ -201,4 +201,13 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	public void setUser(String p) {
 		invokeTargetSetMethod("setUser", p);
 	}
+
+	public boolean isWrapperFor(Class iface) throws SQLException {
+		return false;
+	}
+
+	public Object unwrap(Class iface) throws SQLException {
+		return null;
+	}
+
 }
