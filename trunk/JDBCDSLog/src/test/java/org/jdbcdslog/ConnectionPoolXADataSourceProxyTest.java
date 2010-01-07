@@ -13,7 +13,9 @@ public class ConnectionPoolXADataSourceProxyTest extends TestCase {
 		return new TestSuite(ConnectionPoolXADataSourceProxyTest.class);
 	}
 
-	public void testApp() {
-		assertTrue(true);
+	public void testApp() throws Exception {
+		System.setProperty("org.jdbcdslog.ConnectionPoolXADataSourceProxy.targetDS", "org.hsqldb.jdbc.JDBCDataSource");
+		ConnectionPoolXADataSourceProxy ds = new ConnectionPoolXADataSourceProxy();
+		ds.setURL("jdbc:hsqldb:mem:mymemdb");
 	}
 }
