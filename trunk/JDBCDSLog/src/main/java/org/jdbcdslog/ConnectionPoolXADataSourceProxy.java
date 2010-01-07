@@ -44,6 +44,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public Connection getConnection() throws SQLException {
+		logger.debug("getConnection()");
 		if(targetDS instanceof DataSource)
 			return wrap(((DataSource)targetDS).getConnection());
 		else 
@@ -200,6 +201,10 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	
 	public void setUser(String p) {
 		invokeTargetSetMethod("setUser", p);
+	}
+	
+	public void setDatabase(String p) {
+		invokeTargetSetMethod("setDatabase", p);
 	}
 
 	public boolean isWrapperFor(Class iface) throws SQLException {
