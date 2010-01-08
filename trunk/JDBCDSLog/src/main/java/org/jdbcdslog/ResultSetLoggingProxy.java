@@ -30,7 +30,7 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 			for(int i = 2; i <= md.getColumnCount(); i++)
 				s += ", " + rs.getObject(i);
 			s += "}";
-			logger.debug(s);
+			logger.info(s);
 		} 
 		return r;
 	}

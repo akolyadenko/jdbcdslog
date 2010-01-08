@@ -53,7 +53,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				}
 				if(sql != null)
 					s += " for sql: " + sql;
-				logger.debug(s);			
+				logger.info(s);			
 			}
 			Object r = method.invoke(target, args);
 			if(method.getName().equals("prepareCall") || method.getName().equals("prepareStatement"))

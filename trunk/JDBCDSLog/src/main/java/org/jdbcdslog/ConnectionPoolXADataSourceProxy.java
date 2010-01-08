@@ -44,7 +44,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public Connection getConnection() throws SQLException {
-		logger.debug("getConnection()");
+		logger.info("getConnection()");
 		if(targetDS instanceof DataSource)
 			return wrap(((DataSource)targetDS).getConnection());
 		else 
