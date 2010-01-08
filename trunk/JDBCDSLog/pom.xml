@@ -17,7 +17,7 @@
 		</dependency>
 		<dependency>
 			<groupId>slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
+			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.10</version>
 			<scope>test</scope>
 		</dependency>
