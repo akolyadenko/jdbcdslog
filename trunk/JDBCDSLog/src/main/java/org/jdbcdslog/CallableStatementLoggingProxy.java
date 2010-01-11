@@ -39,7 +39,7 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 				logger.info(s.toString());
 			}
 			if(r instanceof ResultSet)
-				r = ResultSetLoggingProxy.wrapByResultSetProxy(r);
+				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
 			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 			if(logger.isErrorEnabled())

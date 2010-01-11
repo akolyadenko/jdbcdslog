@@ -53,7 +53,7 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 				logger.info(s.toString());
 			}
 			if(r instanceof ResultSet)
-				r = ResultSetLoggingProxy.wrapByResultSetProxy(r);
+				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
 			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 			if(logger.isErrorEnabled())
@@ -72,17 +72,17 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 		if(maxParamNumber > 0) {
 			Integer key = new Integer(1);
 			if(parameters.containsKey(key))
-				s.append(parameters.get(key));
+				s.append("(").append(parameters.get(key)).append(")");
 			else
-				s.append("null");
+				s.append("(null)");
 		}
 		for(int i = 2; i <= maxParamNumber; i ++) {
 			Integer key = new Integer(i);
 			s.append(", ");
 			if(parameters.containsKey(key))
-				s.append(parameters.get(key));
+				s.append("(").append(parameters.get(key)).append(")");
 			else
-				s.append("null");
+				s.append("(null)");
 		}
 		s.append("}");
 		return s.toString();

@@ -74,7 +74,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 		if(r instanceof Statement)
 			return wrapByStatementProxy(r);
 		if(r instanceof ResultSet)
-			return ResultSetLoggingProxy.wrapByResultSetProxy(r);
+			return ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		return r;
 	}
 

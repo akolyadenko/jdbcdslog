@@ -36,7 +36,7 @@ public class StatementLoggingProxy implements InvocationHandler {
 				logger.info(fullMethodName + args[0]);
 			}
 			if(r instanceof ResultSet)
-				r = ResultSetLoggingProxy.wrapByResultSetProxy(r);
+				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
 			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 			if(logger.isErrorEnabled())
