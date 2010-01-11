@@ -2,6 +2,7 @@ package org.jdbcdslog;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
@@ -24,7 +25,7 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 		if(target instanceof ResultSet && method.getName() == "next" && ((Boolean)r).booleanValue()) {
 			ResultSet rs = (ResultSet)target;
 			ResultSetMetaData md = rs.getMetaData();
-			String s = "Result set next row for " + target.toString() + ": {";
+			String s = "Result set next row : {";
 			if(md.getColumnCount() > 0)
 				s += rs.getObject(1);
 			for(int i = 2; i <= md.getColumnCount(); i++)
@@ -33,6 +34,11 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 			logger.info(s);
 		} 
 		return r;
+	}
+
+	static Object wrapByResultSetProxy(Object r) {
+		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{ResultSet.class}, 
+				new ResultSetLoggingProxy(r));
 	}
 
 }

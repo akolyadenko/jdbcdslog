@@ -40,21 +40,8 @@ public class GenericLoggingProxy implements InvocationHandler  {
 	
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
+		
 		try { 
-			boolean writeLog = method.getDeclaringClass() != Object.class && !methodsBlackList.contains(method.getName());
-			if (writeLog) {
-				String s = "";
-				s += "Invoking " + fullMethodName + " with parameters: ";
-				if (args != null && args.length > 0) {
-					s += toString(args[0]);
-					for (int i = 1; i < args.length; i++)
-						s += ", " + toString(args[i]);
-				}
-				if(sql != null)
-					s += " for sql: " + sql;
-				logger.info(s);			
-			}
 			Object r = method.invoke(target, args);
 			if(method.getName().equals("prepareCall") || method.getName().equals("prepareStatement"))
 				r = wrap(r, (String)args[0]);
@@ -62,8 +49,10 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				r = wrap(r, null);
 			return r;
 		} catch(Throwable t) {
-			logger.error(fullMethodName + " throws exception: " + t.getClass().getName() + ": "
-					+ t.getMessage(), t);	
+			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
+			if(logger.isErrorEnabled())
+				logger.error(fullMethodName + " throws exception: " + t.getClass().getName() + ": "
+						+ t.getMessage(), t);	
 			throw t;
 		}
 	}
@@ -79,24 +68,32 @@ public class GenericLoggingProxy implements InvocationHandler  {
 		if(r instanceof Connection) 
 			return wrapByGenericProxy(r, Connection.class, sql);
 		if(r instanceof CallableStatement)
-			return wrapByGenericProxy(r, CallableStatement.class, sql);
+			return wrapByCallableStatementProxy(r, sql);
 		if(r instanceof PreparedStatement)
-			return wrapByGenericProxy(r, PreparedStatement.class, sql);
+			return wrapByPreparedStatementProxy(r, sql);
 		if(r instanceof Statement)
-			return wrapByGenericProxy(r, Statement.class, sql);
+			return wrapByStatementProxy(r);
 		if(r instanceof ResultSet)
-			return wrapByResultSetProxy(r);
+			return ResultSetLoggingProxy.wrapByResultSetProxy(r);
 		return r;
 	}
 
-	private Object wrapByResultSetProxy(Object r) {
-		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{ResultSet.class}, 
-				new ResultSetLoggingProxy(r));
+	private Object wrapByStatementProxy(Object r) {
+		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{Statement.class}, 
+				new StatementLoggingProxy((Statement)r));
 	}
 
-	private Object wrapByGenericProxy(Object r, Class interf, String sql) {
-		if(!(r instanceof Statement))
-			sql = null;
+	private Object wrapByPreparedStatementProxy(Object r, String sql) {
+		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{PreparedStatement.class}, 
+				new PreparedStatementLoggingProxy((PreparedStatement)r, sql));
+	}
+
+	private Object wrapByCallableStatementProxy(Object r, String sql) {
+		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{CallableStatement.class}, 
+				new CallableStatementLoggingProxy((CallableStatement)r, sql));
+	}
+
+	static Object wrapByGenericProxy(Object r, Class interf, String sql) {
 		return Proxy.newProxyInstance(r.getClass().getClassLoader(), new Class[]{interf}, 
 				new GenericLoggingProxy(r, sql));
 	}
