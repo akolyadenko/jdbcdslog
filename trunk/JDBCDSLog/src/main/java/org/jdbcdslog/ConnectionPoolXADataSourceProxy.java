@@ -100,7 +100,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	public XAConnection getXAConnection() throws SQLException {
 		if(targetDS instanceof XADataSource)
-			return ConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection());
+			return XAConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection());
 		else
 			throw new SQLException("targetDS doesn't implement XADataSource interface.");
 	}
@@ -108,14 +108,14 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	public XAConnection getXAConnection(String user, String password)
 			throws SQLException {
 		if(targetDS instanceof XADataSource)
-			return ConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection(user, password));
+			return XAConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection(user, password));
 		else
 			throw new SQLException("targetDS doesn't implement XADataSource interface.");
 	}
 
 	public PooledConnection getPooledConnection() throws SQLException {
 		if(targetDS instanceof ConnectionPoolDataSource)
-			return ConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection());
+			return PooledConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection());
 		else
 			throw new SQLException("targetDS doesn't implement ConnectionPoolDataSource interface.");
 	}
@@ -123,7 +123,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	public PooledConnection getPooledConnection(String user, String password)
 			throws SQLException {
 		if(targetDS instanceof ConnectionPoolDataSource)
-			return ConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection(user, password));
+			return PooledConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection(user, password));
 		else
 			throw new SQLException("targetDS doesn't implement ConnectionPoolDataSource interface.");
 	}
