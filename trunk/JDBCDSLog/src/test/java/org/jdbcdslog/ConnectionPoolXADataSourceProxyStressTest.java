@@ -25,7 +25,7 @@ public class ConnectionPoolXADataSourceProxyStressTest extends TestCase {
 		Connection con = ds.getConnection();
 		con.createStatement().execute("create table test2 (a integer)");
 		PreparedStatement ps = con.prepareStatement("insert into test2 values(?)");
-		for(int i = 0; i < 100000; i ++) {
+		for(int i = 0; i < 1000000; i ++) {
 			ps.setInt(1, i);
 			ps.execute();
 		}

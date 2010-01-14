@@ -25,11 +25,11 @@ public class ConnectionStressTest extends TestCase {
 		Connection con = ds.getConnection();
 		con.createStatement().execute("create table test3 (a integer)");
 		PreparedStatement ps = con.prepareStatement("insert into test3 values(?)");
-		for(int i = 0; i < 100000; i ++) {
+		for(int i = 0; i < 1000000; i ++) {
 			ps.setInt(1, i);
 			ps.execute();
 		}
 		ps.close();
-		con.close();
+		con.close(); 
 	}
 }

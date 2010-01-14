@@ -23,6 +23,10 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 	
 	String sql = null;
 	
+	StringBuffer sb = new StringBuffer();
+	
+	StringBuffer sb2 = new StringBuffer();
+	
 	static List setMethods = Arrays.asList(new String[]{"setAsciiStream", "setBigDecimal", "setBinaryStream"
 			, "setBoolean", "setByte", "setBytes", "setCharacterStream", "setDate", "setDouble", "setFloat"
 			, "setInt", "setLong", "setObject", "setShort", "setString", "setTime", "setTimestamp", "setURL"});
@@ -44,13 +48,15 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 			if("clearParameters".equals(method.getName()))
 				parameters = new TreeMap();
 			if(logger.isInfoEnabled() && executeMethods.contains(method.getName())) {
-				StringBuffer s = new StringBuffer(method.getDeclaringClass().getName())
-					.append(".").append(method.getName());
-				s.append(" ");
-				s.append(sql);
-				s.append(" ");
-				s.append(parametersToString());
-				logger.info(s.toString());
+				sb.setLength(0); 
+				sb.append(method.getDeclaringClass().getName()); // 0.1
+				sb.append(".");
+				sb.append(method.getName()); 
+				sb.append(" ");
+				sb.append(sql);
+				sb.append(" ");
+				sb.append(parametersToString());
+				logger.info(sb.toString());
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r); 
@@ -65,27 +71,28 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 	}
 
 	String parametersToString() {
-		StringBuffer s = new StringBuffer("{");
+		sb2.setLength(0);
+		sb2.append("{");
 		int maxParamNumber = 0;
 		if(parameters.size() > 0)
 			maxParamNumber = ((Integer)parameters.lastKey()).intValue();
 		if(maxParamNumber > 0) {
 			Integer key = new Integer(1);
 			if(parameters.containsKey(key))
-				s.append("(").append(parameters.get(key)).append(")");
+				sb2.append("(").append(parameters.get(key)).append(")");
 			else
-				s.append("(null)");
+				sb2.append("(null)");
 		}
 		for(int i = 2; i <= maxParamNumber; i ++) {
 			Integer key = new Integer(i);
-			s.append(", ");
+			sb2.append(", ");
 			if(parameters.containsKey(key))
-				s.append("(").append(parameters.get(key)).append(")");
+				sb2.append("(").append(parameters.get(key)).append(")");
 			else
-				s.append("(null)");
+				sb2.append("(null)");
 		}
-		s.append("}");
-		return s.toString();
+		sb2.append("}");
+		return sb2.toString();
 	}
 
 }
