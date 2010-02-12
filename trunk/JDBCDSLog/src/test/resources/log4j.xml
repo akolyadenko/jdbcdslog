@@ -11,8 +11,10 @@
   	</appender>
 	<appender name="out" class="org.apache.log4j.AsyncAppender">
     	<appender-ref ref="fileout"/>
+    	<param name="blocking" value="false"/>
+    	<param name="bufferSize" value="100000"/>
   	</appender>
 	<root>
-      	<!-- appender-ref ref="out"/ -->
+      	<appender-ref ref="out"/>
   </root>
 </log4j:configuration>
