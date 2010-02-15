@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 public class DriverLoggingProxy implements Driver {
 
 	static Logger logger = LoggerFactory.getLogger(DriverLoggingProxy.class);
+	
+	static final String urlPrefix = "jdbc:jdbcdslog:";
 	
 	static
     {
@@ -23,51 +26,93 @@ public class DriverLoggingProxy implements Driver {
         catch(Exception exception) { }
     }
 	
-	Driver target = null;
-	
 	public DriverLoggingProxy() throws JDBCDSLogException {
-		try {
-			logger.info("In Constructor.");
-			String className = System
-				.getProperty("org.jdbcdslog.DriverLoggingProxy.targetDriver");
-			if (className == null)
-				throw new JDBCDSLogException("Can't find org.jdbcdslog.DriverLoggingProxy.targetDriver property.");
-			Class cl = Class.forName(className);
-			if (cl == null)
-				throw new JDBCDSLogException("Can't load class of targetDS.");
-			Object targetObj = cl.newInstance();
-			target = (Driver)targetObj;
-		} catch(Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new JDBCDSLogException(e);
-		}
 	}
 	
 	public boolean acceptsURL(String url) throws SQLException {
-		logger.info("acceptsURL");
-		return target.acceptsURL(url);
+		return url != null && url.regionMatches(true, 0, urlPrefix, 0, urlPrefix.length());
 	}
 
 	public Connection connect(String url, Properties info) throws SQLException {
-		logger.info("connect");
-		return ConnectionLoggingProxy.wrap(target.connect(url, info));
+		if(logger.isInfoEnabled()) {
+			StringBuffer sb = new StringBuffer();
+			sb.append("connect to URL ")
+				.append(url)
+				.append(" with properties: ")
+				.append(info.toString());
+			logger.info(sb.toString());
+		}
+		if(!acceptsURL(url))
+			throw new SQLException("Invalid URL" + url);
+		url = "jdbc:" + url.substring(urlPrefix.length());
+		StringTokenizer ts = new StringTokenizer(url, ":/;=&", false);
+		String targetDriver = null;
+		while(ts.hasMoreTokens()) {
+			String s = ts.nextToken();
+			logger.info("s = " + s);
+			if("targetDriver".equals(s) && ts.hasMoreTokens()) {
+				targetDriver = ts.nextToken();
+				break;
+			}
+		}
+		if(targetDriver == null)
+			throw new SQLException("Can't find targetDriver parameter in URL: " + url);
+		try {
+			Class.forName(targetDriver);
+			return ConnectionLoggingProxy.wrap(DriverManager.getConnection(url, info));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		}
 	}
 
 	public int getMajorVersion() {
-		return target.getMajorVersion();
+		return 1;
 	}
 
 	public int getMinorVersion() {
-		return target.getMinorVersion();
+		return 8;
 	}
 
-	public DriverPropertyInfo[] getPropertyInfo(String url, Properties info)
+	public DriverPropertyInfo[] getPropertyInfo(String url, Properties properties)
 			throws SQLException {
-		return target.getPropertyInfo(url, info);
+        	String as[] = {
+                "true", "false"
+            };
+            DriverPropertyInfo adriverpropertyinfo[] = new DriverPropertyInfo[6];
+            DriverPropertyInfo driverpropertyinfo = new DriverPropertyInfo("user", null);
+            driverpropertyinfo.value = properties.getProperty("user");
+            driverpropertyinfo.required = true;
+            adriverpropertyinfo[0] = driverpropertyinfo;
+            driverpropertyinfo = new DriverPropertyInfo("password", null);
+            driverpropertyinfo.value = properties.getProperty("password");
+            driverpropertyinfo.required = true;
+            adriverpropertyinfo[1] = driverpropertyinfo;
+            driverpropertyinfo = new DriverPropertyInfo("get_column_name", null);
+            driverpropertyinfo.value = properties.getProperty("get_column_name", "true");
+            driverpropertyinfo.required = false;
+            driverpropertyinfo.choices = as;
+            adriverpropertyinfo[2] = driverpropertyinfo;
+            driverpropertyinfo = new DriverPropertyInfo("ifexists", null);
+            driverpropertyinfo.value = properties.getProperty("ifexists");
+            driverpropertyinfo.required = false;
+            driverpropertyinfo.choices = as;
+            adriverpropertyinfo[3] = driverpropertyinfo;
+            driverpropertyinfo = new DriverPropertyInfo("default_schema", null);
+            driverpropertyinfo.value = properties.getProperty("default_schema");
+            driverpropertyinfo.required = false;
+            driverpropertyinfo.choices = as;
+            adriverpropertyinfo[4] = driverpropertyinfo;
+            driverpropertyinfo = new DriverPropertyInfo("shutdown", null);
+            driverpropertyinfo.value = properties.getProperty("shutdown");
+            driverpropertyinfo.required = false;
+            driverpropertyinfo.choices = as;
+            adriverpropertyinfo[5] = driverpropertyinfo;
+            return adriverpropertyinfo;
 	}
 
 	public boolean jdbcCompliant() {
-		return target.jdbcCompliant();
+		return false;
 	}
 	
 }
