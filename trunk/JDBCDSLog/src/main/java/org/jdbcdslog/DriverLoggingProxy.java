@@ -2,6 +2,7 @@ package org.jdbcdslog;
 
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -13,11 +14,20 @@ public class DriverLoggingProxy implements Driver {
 
 	static Logger logger = LoggerFactory.getLogger(DriverLoggingProxy.class);
 	
+	static
+    {
+        try
+        {
+            DriverManager.registerDriver(new DriverLoggingProxy());
+        }
+        catch(Exception exception) { }
+    }
+	
 	Driver target = null;
 	
 	public DriverLoggingProxy() throws JDBCDSLogException {
-		logger.info("In Constructor.");
 		try {
+			logger.info("In Constructor.");
 			String className = System
 				.getProperty("org.jdbcdslog.DriverLoggingProxy.targetDriver");
 			if (className == null)
@@ -34,10 +44,12 @@ public class DriverLoggingProxy implements Driver {
 	}
 	
 	public boolean acceptsURL(String url) throws SQLException {
+		logger.info("acceptsURL");
 		return target.acceptsURL(url);
 	}
 
 	public Connection connect(String url, Properties info) throws SQLException {
+		logger.info("connect");
 		return ConnectionLoggingProxy.wrap(target.connect(url, info));
 	}
 
