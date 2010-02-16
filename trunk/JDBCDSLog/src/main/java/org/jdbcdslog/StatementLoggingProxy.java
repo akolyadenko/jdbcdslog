@@ -30,7 +30,6 @@ public class StatementLoggingProxy implements InvocationHandler {
 			throws Throwable {
 		Object r = null;
 		try {
-			r = method.invoke(targetStatement, args);
 			if(logger.isInfoEnabled() && executeMethods.contains(method.getName())) {
 				StringBuffer sb = new StringBuffer();
 				sb.append(method.getDeclaringClass().getName())
@@ -40,6 +39,7 @@ public class StatementLoggingProxy implements InvocationHandler {
 					.append(args[0]);
 				logger.info(sb.toString());
 			}
+			r = method.invoke(targetStatement, args);
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
