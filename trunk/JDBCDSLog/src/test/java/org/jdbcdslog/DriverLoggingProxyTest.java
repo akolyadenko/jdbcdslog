@@ -18,11 +18,10 @@ public class DriverLoggingProxyTest extends TestCase {
 	}
 	
 	public void test() throws Exception {
-		System.setProperty("org.jdbcdslog.DriverLoggingProxy.targetDriver", "org.hsqldb.jdbcDriver");
 		DriverLoggingProxy proxy = new DriverLoggingProxy();
 		Properties pr = new Properties();
 		pr.put("user", "sa");
-		Connection con = proxy.connect("jdbc:hsqldb:mem:mymemdb", pr);
+		Connection con = proxy.connect("jdbc:jdbcdslog:hsqldb:mem:mymemdb;targetDriver=org.hsqldb.jdbcDriver", pr);
 		con.createStatement().execute("create table test_dr (a integer)");
 		con.createStatement().execute("insert into test_dr values(1)");
 		ResultSet rs = con.createStatement().executeQuery("select * from test_dr");
