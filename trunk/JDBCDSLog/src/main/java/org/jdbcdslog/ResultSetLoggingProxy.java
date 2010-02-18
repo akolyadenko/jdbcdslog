@@ -21,7 +21,12 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 	
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		Object r = method.invoke(target, args);
+		Object r = null;
+		try {
+			r = method.invoke(target, args);
+		} catch(Throwable e) {
+			LogUtils.handleException(e, method, logger);
+		}
 		if(logger.isInfoEnabled() && method.getName().equals("next") && ((Boolean)r).booleanValue()) {
 			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 			ResultSet rs = (ResultSet)target;

@@ -49,19 +49,9 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				r = wrap(r, null);
 			return r;
 		} catch(Throwable t) {
-			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
-			if(logger.isErrorEnabled())
-				logger.error(fullMethodName + " throws exception: " + t.getClass().getName() + ": "
-						+ t.getMessage(), t);	
-			throw t;
+			LogUtils.handleException(t, method, logger);
 		}
-	}
-
-	private String toString(Object o) {
-		if(o == null)
-			return "null";
-		else
-			return o.toString();
+		return null;
 	}
 
 	private Object wrap(Object r, String sql) {

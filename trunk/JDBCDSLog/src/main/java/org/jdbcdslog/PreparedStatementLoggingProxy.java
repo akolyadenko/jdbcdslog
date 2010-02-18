@@ -61,11 +61,7 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r); 
 		} catch(Throwable t) {
-			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
-			if(logger.isErrorEnabled())
-				logger.error(fullMethodName + " throws exception: " + t.getClass().getName() + ": "
-					+ t.getMessage(), t);
-			throw t;
+			LogUtils.handleException(t, method, logger);
 		}
 		return r;
 	}
