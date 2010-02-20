@@ -45,7 +45,7 @@ public class DriverLoggingProxy implements Driver {
 		if(!acceptsURL(url))
 			throw new SQLException("Invalid URL" + url);
 		url = "jdbc:" + url.substring(urlPrefix.length());
-		StringTokenizer ts = new StringTokenizer(url, ":/;=&", false);
+		StringTokenizer ts = new StringTokenizer(url, ":/;=&?", false);
 		String targetDriver = null;
 		while(ts.hasMoreTokens()) {
 			String s = ts.nextToken();
@@ -62,7 +62,7 @@ public class DriverLoggingProxy implements Driver {
 			return ConnectionLoggingProxy.wrap(DriverManager.getConnection(url, info));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			throw new SQLException(e);
+			throw new SQLException(e.getMessage());
 		}
 	}
 
