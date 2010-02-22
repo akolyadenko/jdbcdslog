@@ -20,6 +20,10 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 			throws Throwable {
 		Object r = null;
 		try {
+			boolean toLog = logger.isInfoEnabled() && executeMethods.contains(method.getName());
+			long t1 = 0;
+			if(toLog)
+				t1 = System.currentTimeMillis();
 			r = method.invoke(target, args);
 			if(setMethods.contains(method.getName()) && args[0] instanceof Integer)
 				parameters.put(args[0], args[1]);
@@ -27,21 +31,16 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 				namedParameters.put(args[0], args[1]);
 			if("clearParameters".equals(method.getName()))
 				parameters = new TreeMap();
-			if(logger.isInfoEnabled() && executeMethods.contains(method.getName())) {
-				StringBuffer s = new StringBuffer(method.getDeclaringClass().getName())
-					.append(".").append(method.getName());
-				s.append(" ");
-				s.append(sql);
-				s.append(" parameters: ");
-				s.append(parametersToString());
-				s.append(" named parameters: ");
-				s.append(namedParameters);
-				logger.info(s.toString());
+			if(toLog) {
+				long t2 = System.currentTimeMillis();
+				StringBuffer s = LogUtils.createLogEntry(method, args[0], parametersToString(), namedParameters.toString());
+				logger.info(s.append(" ").append(t2 - t1).append(" ms.").toString());
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
-			LogUtils.handleException(t, method, logger);
+			LogUtils.handleException(t, logger, 
+					LogUtils.createLogEntry(method, args[0], parametersToString(), namedParameters.toString()));
 		}
 		return r;	
 	}

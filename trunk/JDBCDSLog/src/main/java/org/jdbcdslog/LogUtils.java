@@ -6,20 +6,36 @@ import java.lang.reflect.Method;
 import org.slf4j.Logger;
 
 public class LogUtils {
-	public static void handleException(Throwable e, Method m ,Logger l) 
+	public static void handleException(Throwable e, Logger l, StringBuffer msg) 
 		throws Throwable {
-		String fullMethodName = m.getDeclaringClass().getName() + "." + m.getName();
 		if(e instanceof InvocationTargetException) {
-			InvocationTargetException t = (InvocationTargetException)e;
+			Throwable t = ((InvocationTargetException)e).getTargetException();
 			if(l.isErrorEnabled()) 
-				l.error(fullMethodName + " throws exception: " + t.getClass().getName() + ": "
-					+ t.getTargetException().getMessage(), t.getTargetException());
-			throw t.getTargetException();
+				l.error(msg + " throws exception: " + t.getClass().getName() + ": "
+					+ t.getMessage(), t);
+			throw t;
 		} else {
 			if(l.isErrorEnabled())
-				l.error(fullMethodName + " throws exception: " + e.getClass().getName() + ": "
+				l.error(msg + " throws exception: " + e.getClass().getName() + ": "
 						+ e.getMessage(), e);
 			throw e;
 		}
+	}
+	
+	public static StringBuffer createLogEntry(Method method, Object sql, String parameters, String namedParameters) {
+		StringBuffer s = new StringBuffer(method.getDeclaringClass().getName())
+		.append(".").append(method.getName());
+		s.append(" ");
+		if(sql != null)
+			s.append(sql);
+		if(parameters != null) {
+			s.append(" parameters: ");
+			s.append(parameters);
+		}
+		if(namedParameters != null) {
+			s.append(" named parameters: ");
+			s.append(namedParameters);
+		}
+		return s;
 	}
 }

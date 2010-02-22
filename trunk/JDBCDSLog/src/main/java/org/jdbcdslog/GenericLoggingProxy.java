@@ -49,7 +49,8 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				r = wrap(r, null);
 			return r;
 		} catch(Throwable t) {
-			LogUtils.handleException(t, method, logger);
+			LogUtils.handleException(t, logger
+					, LogUtils.createLogEntry(method, null, null, null));
 		}
 		return null;
 	}

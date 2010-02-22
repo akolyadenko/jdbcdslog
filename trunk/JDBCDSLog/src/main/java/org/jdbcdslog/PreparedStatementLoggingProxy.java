@@ -22,11 +22,7 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 	Object target = null;
 	
 	String sql = null;
-	
-	StringBuffer sb = new StringBuffer();
-	
-	StringBuffer sb2 = new StringBuffer();
-	
+		
 	static List setMethods = Arrays.asList(new String[]{"setAsciiStream", "setBigDecimal", "setBinaryStream"
 			, "setBoolean", "setByte", "setBytes", "setCharacterStream", "setDate", "setDouble", "setFloat"
 			, "setInt", "setLong", "setObject", "setShort", "setString", "setTime", "setTimestamp", "setURL"});
@@ -42,31 +38,30 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 			throws Throwable {
 		Object r = null;
 		try {
+			long t1 = 0;
+			boolean toLog = logger.isInfoEnabled() && executeMethods.contains(method.getName());
+			if(toLog)
+				t1 = System.currentTimeMillis();
 			r = method.invoke(target, args);
 			if(setMethods.contains(method.getName()) && args[0] instanceof Integer)
 				parameters.put(args[0], args[1]);
 			if("clearParameters".equals(method.getName()))
 				parameters = new TreeMap();
-			if(logger.isInfoEnabled() && executeMethods.contains(method.getName())) {
-				sb.setLength(0); 
-				sb.append(method.getDeclaringClass().getName()); // 0.1
-				sb.append(".");
-				sb.append(method.getName()); 
-				sb.append(" ");
-				sb.append(sql);
-				sb.append(" ");
-				sb.append(parametersToString());
-				logger.info(sb.toString());
+			if(toLog) {
+				long t2 = System.currentTimeMillis();
+				StringBuffer sb = LogUtils.createLogEntry(method, sql, parametersToString(), null);
+				logger.info(sb.append(" ").append(t2 - t1).append(" ms.").toString());
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r); 
 		} catch(Throwable t) {
-			LogUtils.handleException(t, method, logger);
+			LogUtils.handleException(t, logger, LogUtils.createLogEntry(method, sql, parametersToString(), null));
 		}
 		return r;
 	}
 
 	String parametersToString() {
+		StringBuffer sb2 = new StringBuffer();
 		sb2.setLength(0);
 		sb2.append("{");
 		int maxParamNumber = 0;

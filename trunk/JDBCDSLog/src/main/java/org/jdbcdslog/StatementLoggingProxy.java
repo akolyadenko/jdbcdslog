@@ -30,20 +30,20 @@ public class StatementLoggingProxy implements InvocationHandler {
 			throws Throwable {
 		Object r = null;
 		try {
-			if(logger.isInfoEnabled() && executeMethods.contains(method.getName())) {
-				StringBuffer sb = new StringBuffer();
-				sb.append(method.getDeclaringClass().getName())
-					.append(".")
-					.append(method.getName())
-					.append(" ")
-					.append(args[0]);
-				logger.info(sb.toString());
-			}
+			boolean toLog = logger.isInfoEnabled() && executeMethods.contains(method.getName());
+			long t1 = 0;
+			if(toLog)
+				t1 = System.currentTimeMillis();
 			r = method.invoke(targetStatement, args);
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
+			if(toLog) {
+				long t2 = System.currentTimeMillis();
+				StringBuffer sb = LogUtils.createLogEntry(method, args[0], null, null);
+				logger.info(sb.append(" ").append(t2 - t1).append(" ms.").toString());
+			}
 		} catch(Throwable t) {
-			LogUtils.handleException(t, method, logger);
+			LogUtils.handleException(t, logger, LogUtils.createLogEntry(method, args[0], null, null));
 		}
 		return r;
 	}
