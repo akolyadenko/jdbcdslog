@@ -1,3 +1,3 @@
-[Obtaining_the_library_jar]
+[UserGuide#Obtaining_the_library_jar Obtaining the library jar]
 
 =Obtaining the library jar=
