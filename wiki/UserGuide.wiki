@@ -7,4 +7,8 @@ There are two options for obtaining the files for the library.
 
 ==Obtaining the pre-packaged release==
 
+Most developers will want to use a pre-packaged release, which are typically the most stable versions of the library. 
+
+Click on the Downloads tab to download the latest stable library jar. It contains only direct dependency on slf4j-api library which can be obtained from [http://www.slf4j.org/ slf4j project's page].
+
 ==Obtaining the most up-to-date version from SVN==
