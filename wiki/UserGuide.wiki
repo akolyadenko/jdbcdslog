@@ -1,3 +1,4 @@
+#labels Featured
 [UserGuide#Obtaining_the_library_jar Obtaining the library jar]
  * [UserGuide#Obtaining_the_pre-packaged_release Obtaining the pre-packaged release]
  * [UserGuide#Obtaining_the_most_up-to-date_version_from_SVN Obtaining the most up-to-date version from SVN]
