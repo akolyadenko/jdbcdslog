@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.naming.NamingException;
 import javax.naming.Reference;
@@ -23,27 +27,19 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	static Logger logger = LoggerFactory.getLogger(ConnectionPoolXADataSourceProxy.class);
 	
+	static final String targetDSParameter = "targetDS";
+	
 	Object targetDS = null;
+	
+	Map props = new HashMap();
 
 	public ConnectionPoolXADataSourceProxy() throws JDBCDSLogException {
-		try {
-			String className = System
-					.getProperty("org.jdbcdslog.ConnectionPoolXADataSourceProxy.targetDS");
-			if (className == null)
-				throw new JDBCDSLogException(
-						"Can't find org.jdbcdslog.ConnectionPoolXADataSourceProxy.targetDS property.");
-			Class cl = Class.forName(className);
-			if (cl == null)
-				throw new JDBCDSLogException("Can't load class of targetDS.");
-			Object targetObj = cl.newInstance();
-			targetDS = targetObj;
-		} catch (Exception e) {
-			throw new JDBCDSLogException(e);
-		}
 	}
 
 	public Connection getConnection() throws SQLException {
 		logger.info("getConnection()");
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof DataSource)
 			return ConnectionLoggingProxy.wrap(((DataSource)targetDS).getConnection());
 		else 
@@ -129,6 +125,12 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 	
 	void invokeTargetSetMethod(String m, Object p) {
+		String methodName = "invokeTargetSetMethod() ";
+		if(targetDS == null) {
+			props.put(m, p);
+			return;
+		}
+		logger.debug(m + "(" + p.toString() + ")");
 		try {
 			Method me = targetDS.getClass().getMethod(m,
 					new Class[] { String.class });
@@ -139,10 +141,52 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 		}
 	}
 	
-	public void setURL(String p) {
-		invokeTargetSetMethod("setURL", p);
+	public void setURL(String url) throws JDBCDSLogException {
+			url = initTargetDS(url);
+			invokeTargetSetMethod("setURL", url);
+	}
+
+	private String initTargetDS(String url) throws JDBCDSLogException {
+		String methodName = "initTargedDS() ";
+		logger.debug(methodName + "url = " + url + " targedDS = " + targetDS);
+		try {
+			if(url == null || targetDS != null)
+				return url;
+			logger.debug("Parse url.");
+			StringTokenizer ts = new StringTokenizer(url, ":/;=&?", false);
+			String targetDSName = null;
+			while (ts.hasMoreTokens()) {
+				String s = ts.nextToken();
+				logger.debug("s = " + s);
+				if (targetDSParameter.equals(s) && ts.hasMoreTokens()) {
+					targetDSName = ts.nextToken();
+					break;
+				}
+			}
+			if (targetDSName == null)
+				return url;
+			url = url.substring(0, url.length() - targetDSName.length() - targetDSParameter.length() - 2);
+			Class cl = Class.forName(targetDSName);
+			if (cl == null)
+				throw new JDBCDSLogException("Can't load class of targetDS.");
+			Object targetObj = cl.newInstance();
+			targetDS = targetObj;
+			logger.debug(methodName + "targetDS initialized.");
+			setPropertiesForTargetDS();
+			return url;
+		} catch (Throwable t) {
+			logger.error(t.getMessage(), t);
+			throw new JDBCDSLogException(t);
+		}
 	}
 	
+	private void setPropertiesForTargetDS() {
+		for(Iterator i = props.keySet().iterator(); i.hasNext(); ) {
+			String m = (String)i.next();
+			invokeTargetSetMethod(m, props.get(m));
+		}
+	}
+
 	public void setDatabaseName(String p) {
 		invokeTargetSetMethod("setDatabaseName", p);
 	}
@@ -187,7 +231,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 		invokeTargetSetMethod("setUser", p);
 	}
 	
-	public void setDatabase(String p) {
+	public void setDatabase(String p) throws JDBCDSLogException {
+		p = initTargetDS(p);
 		invokeTargetSetMethod("setDatabase", p);
 	}
 

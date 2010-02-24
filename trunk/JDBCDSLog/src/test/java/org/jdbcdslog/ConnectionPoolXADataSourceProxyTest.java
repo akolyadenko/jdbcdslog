@@ -17,9 +17,8 @@ public class ConnectionPoolXADataSourceProxyTest extends TestCase {
 	}
 
 	public void testApp() throws Exception {
-		System.setProperty("org.jdbcdslog.ConnectionPoolXADataSourceProxy.targetDS", "org.hsqldb.jdbc.jdbcDataSource");
 		ConnectionPoolXADataSourceProxy ds = new ConnectionPoolXADataSourceProxy();
-		ds.setDatabase("jdbc:hsqldb:mem:mymemdb");
+		ds.setDatabase("jdbc:hsqldb:mem:mymemdb;targetDS=org.hsqldb.jdbc.jdbcDataSource");
 		ds.setUser("sa");
 		Connection con = ds.getConnection();
 		con.createStatement().execute("create table test (a integer)");

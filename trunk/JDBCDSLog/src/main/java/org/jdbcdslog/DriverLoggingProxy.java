@@ -17,6 +17,8 @@ public class DriverLoggingProxy implements Driver {
 	
 	static final String urlPrefix = "jdbc:jdbcdslog:";
 	
+	static final String targetDriverParameter = "targetDriver";
+	
 	static
     {
         try
@@ -49,14 +51,15 @@ public class DriverLoggingProxy implements Driver {
 		String targetDriver = null;
 		while(ts.hasMoreTokens()) {
 			String s = ts.nextToken();
-			logger.info("s = " + s);
-			if("targetDriver".equals(s) && ts.hasMoreTokens()) {
+			logger.debug("s = " + s);
+			if(targetDriverParameter.equals(s) && ts.hasMoreTokens()) {
 				targetDriver = ts.nextToken();
 				break;
 			}
 		}
 		if(targetDriver == null)
 			throw new SQLException("Can't find targetDriver parameter in URL: " + url);
+		url = url.substring(0, url.length() - targetDriver.length() - targetDriverParameter.length() - 2);
 		try {
 			Class.forName(targetDriver);
 			return ConnectionLoggingProxy.wrap(DriverManager.getConnection(url, info));
