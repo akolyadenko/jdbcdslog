@@ -4,7 +4,9 @@
  * [UserGuide#Obtaining_the_pre-packaged_release_distro Obtaining the pre-packaged release distro]
  * [UserGuide#Obtaining_the_most_up-to-date_version_from_SVN Obtaining the most up-to-date version from SVN]
  * [UserGuide#Compiling_library_using_your_JDK_installation Compiling library using your JDK installation]
-
+ * [UserGuide#Obtaining_dependencies Obtaining dependencies]
+[UserGuide#Installation_and_configuration Installation and configuration]
+ * [UserGuide#Installing Installing]
 =Obtaining the library jar=
 
 There are two options for obtaining the files for the library. 
@@ -40,7 +42,7 @@ After you got the library jar file, you will need to get the dependencies. Curre
 
 =Installation and configuration=
 
-==Installing
+==Installing==
 
 To install the jdbcdslog you just need to place library's jar and dependencies to classpath of your application.
 
