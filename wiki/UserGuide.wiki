@@ -98,3 +98,21 @@ Connection loggingConnection = ConnectionLoggingProxy.wrap(originalConnection);
 }}}
 
 That's it. Now all JDBC calls passed through loggingConnection object will be intercepted and logged.
+
+===Using JDBC Driver Proxy==
+
+In addition you can use JDBC Driver Logging Proxy. It will log all JDBC calls and transfer it to original JDBC Driver at the same time. 
+
+In this case you should use org.jdbcdslog.DriverLoggingProxy instead of the original JDBC Driver class and use jdbcdslog URL format for connection URL parameter:
+
+{{{jdbc:jdbcdslog:<original URL>;targetDriver=<original JDBC driver full class name>}}}
+
+In example following original connection URL
+
+{{{jdbc:hsqldb:mem:mymemdb}}}
+
+should be transformed to 
+
+{{{jdbc:jdbcdslog:hsqldb:mem:mymemdb;targetDriver=org.hsqldb.jdbcDriver}}}
+
+After this all JDBC connections for new URL will use ldbcdslog logging proxy, all JDBC calls wil be logged and transfered to your original JDBC driver.
