@@ -1,16 +1,21 @@
 #labels Featured
 [UserGuide#Obtaining_the_library_jar Obtaining the library jar]
  * [UserGuide#Obtaining_the_pre-packaged_release Obtaining the pre-packaged release]
+ * [Obtaining_the_pre-packaged_release_distro#Obtaining the pre-packaged release distro]
  * [UserGuide#Obtaining_the_most_up-to-date_version_from_SVN Obtaining the most up-to-date version from SVN]
 =Obtaining the library jar=
 
 There are two options for obtaining the files for the library. 
 
-==Obtaining the pre-packaged release==
+==Obtaining the pre-packaged release jar==
 
 Most developers will want to use a pre-packaged release, which are typically the most stable versions of the library. 
 
 Click on the Downloads tab to download the latest stable library jar. It has only direct dependency on slf4j-api library which can be obtained from [http://www.slf4j.org/ slf4j project's page].
+
+==Obtaining the pre-packaged release distro==
+
+You can also get a zipped archive of the entire project including dependencies, sources and unit tests on the Downloads tab. After extracting the library from the zipped archive, you can find entire library jar file in the folder with name 'target'. 
 
 ==Obtaining the most up-to-date version from SVN==
 
