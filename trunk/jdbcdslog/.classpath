@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="lib" path="C:/downloads/slf4j-1.5.10/slf4j-api-1.5.10.jar"/>
-	<classpathentry kind="var" path="M2_REPO/junit/junit-dep/4.4/junit-dep-4.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
