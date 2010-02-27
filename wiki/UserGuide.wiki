@@ -42,7 +42,7 @@ In this case you need to install and set up Maven on your computer, then navigat
 
 If you need to specify the path to your target JDK manually, you may specify it in pom.xml file in the project's root directory. The path to your JDK javac binary and compiler version should be specified in 'maven-compiler-plugin' plugin settings, for example:
 
-<pre><code>
+{{{
 <project>
 ...
 <build>
@@ -60,7 +60,7 @@ If you need to specify the path to your target JDK manually, you may specify it 
 ...
 </build>
 </project>
-</code></pre>
+}}}
 
 ==Obtaining dependencies==
 
