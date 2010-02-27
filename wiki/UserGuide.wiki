@@ -6,7 +6,9 @@
  * [UserGuide#Compiling_library_using_your_JDK_installation Compiling library using your JDK installation]
  * [UserGuide#Obtaining_dependencies Obtaining dependencies]
 [UserGuide#Installing Installing]
-
+[UserGuide#Configuring Configuring]
+ * [UserGuide#Setup_logging_proxy Setup logging proxy]
+  * [UserGuide#Manually_wrap_the_JDBC_Connection_object_in_the_code Manually wrap the JDBC Connection object in the code]
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -85,7 +87,7 @@ There are three use cases of jdbcdslog usage:
 
  * you can manually wrap JDBC Connection object in your code
  * you can setup logging JDBC Driver proxy
- * you can setup logging JDBC DataSource proxy
+ * you can setup logging JDBC !DataSource proxy
 
 ===Manually wrap the JDBC Connection object in the code===
 
