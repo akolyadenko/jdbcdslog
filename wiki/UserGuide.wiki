@@ -5,8 +5,8 @@
  * [UserGuide#Obtaining_the_most_up-to-date_version_from_SVN Obtaining the most up-to-date version from SVN]
  * [UserGuide#Compiling_library_using_your_JDK_installation Compiling library using your JDK installation]
  * [UserGuide#Obtaining_dependencies Obtaining dependencies]
-[UserGuide#Installation_and_configuration Installation and configuration]
- * [UserGuide#Installing Installing]
+[UserGuide#Installing Installing]
+
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -66,10 +66,25 @@ If you need to specify the path to your target JDK manually, you may specify it 
 
 After you got the library jar file, you will need to get the dependencies. Currently jdbcdslog directly depends only on 1.5.10 version of [http://www.slf4j.org/ slf4j] library. You will need to download the slf4j-api-1.5.10.jar file from [http://www.slf4j.org/ slf4j project's page].
 
-=Installation and configuration=
-
-==Installing==
+=Installation=
 
 To install the jdbcdslog you just need to place library's jar and dependencies to classpath of your application.
 
 Initially you need to put jdbcdslog-0.1.jar and slf4j-api-1.5.10.jar to classpath. You may need to put other dependencies files depends on logging engine you will choose for the logging. Please look at logging section for more details. 
+
+=Configuring=
+
+You need to configure two things in order to use the jdbcdslog library:
+
+ * setup logging proxy
+ * setup logging engine
+
+==Setup logging proxy==
+
+There are three use cases of jdbcdslog usage:
+
+ * you can manually wrap JDBC Connection object in your code
+ * you can setup logging JDBC Driver proxy
+ * you can setup logging JDBC DataSource proxy
+
+===Manually wrap the JDBC Connection object in the code===
