@@ -3,6 +3,8 @@
  * [UserGuide#Obtaining_the_pre-packaged_release Obtaining the pre-packaged release]
  * [UserGuide#Obtaining_the_pre-packaged_release_distro Obtaining the pre-packaged release distro]
  * [UserGuide#Obtaining_the_most_up-to-date_version_from_SVN Obtaining the most up-to-date version from SVN]
+ * [UserGuide#Compiling_library_using_your_JDK_installation Compiling library using your JDK installation]
+
 =Obtaining the library jar=
 
 There are two options for obtaining the files for the library. 
@@ -22,3 +24,12 @@ You can also get a zipped archive of the entire project including dependencies, 
 The most up-to-date version of the code is available from this project's SVN repository. Obtaining the code via SVN enables developers to get early access to fixes or features that have not yet been released in the pre-packaged version or for developers who want to contribute patches back to the project. Note that SVN releases are not guaranteed to be stable -- the code may be buggy and certain interfaces may change before the next release.
 
 Obtain the code by using the one of SVN checkout commands listed on Source tab (you will need an SVN client installed on your computer)
+
+==Compiling library using your JDK installation==
+
+You may need to compile the library in two cases:
+
+* you got sources from SVN (it doesn't contain jar file)
+* you need to run the library with older Java versions (release files contain library compiled using Java 6)
+
+In this case you need to install and set up Maven on your computer, then navigate to project's directory and run mvn package command. After these steps you will find library jar in 'target' directory.
