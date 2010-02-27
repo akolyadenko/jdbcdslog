@@ -33,3 +33,9 @@ You may need to compile the library in two cases:
  * you need to run the library with older Java versions (release files contain library compiled using Java 6)
 
 In this case you need to install and set up Maven on your computer, then navigate to project's directory and run mvn package command. After these steps you will find library jar in 'target' directory.
+
+==Obtaining dependencies==
+
+After you got the library jar file, you will need to get the dependencies. Currently jdbcdslog directly depends only on 1.5.10 version of [http://www.slf4j.org/ slf4j] library. You will need to download the slf4j-api-1.5.10.jar file from [http://www.slf4j.org/ slf4j project's page].
+
+=Installing and configuring=
