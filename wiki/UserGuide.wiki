@@ -11,7 +11,7 @@
   * [UserGuide#Manually_wrap_the_JDBC_Connection_object_in_the_code Manually wrap the JDBC Connection object in the code]
   * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
   * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC !DataSource proxy]
-
+ * [UserGuide#Setup_logging_engine Setup logging engine]
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -127,3 +127,14 @@ Also you can setup logging on !DataSource level. The idea is the same as for JDB
 In this case you should use {{{org.jdbcdslog.ConnectionPoolXADataSourceProxy}}} class instead of your original !DataSource class and pass additional parameter {{{targetDS}}} to the !DataBase or URL setting for !DataSource. 
 
 In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should transform it to {{{jdbc:hsqldb:mem:mymemdb;targetDS=<original DataSource full class name>}}}.
+
+==Setup logging engine==
+
+jdbcdslog uses slf4j tool for logging. It means that all popular logging engine can be used for SQL logging with jdbcdslog. Currently slf4j supports following engines:
+
+* log4j
+* jakarta common logging
+* java util logging
+* console logging
+
+If you want to connect jdbcdslog to your favorite logging engine, you need just download appropriate connector from slf4j.org web site and put it in your classpath. That's it.
