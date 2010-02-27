@@ -88,3 +88,11 @@ There are three use cases of jdbcdslog usage:
  * you can setup logging JDBC DataSource proxy
 
 ===Manually wrap the JDBC Connection object in the code===
+
+The simplest scenario is to just wrap the existing JDBC Connection. You can do something like following in your code:
+
+{{{
+Connection loggingConnection = ConnectionLoggingProxy.wrap(originalConnection);
+}}}
+
+That's it. Now all JDBC calls passed through loggingConnection object will be intercepted and logged.
