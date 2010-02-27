@@ -29,7 +29,7 @@ Obtain the code by using the one of SVN checkout commands listed on Source tab (
 
 You may need to compile the library in two cases:
 
-* you got sources from SVN (it doesn't contain jar file)
-* you need to run the library with older Java versions (release files contain library compiled using Java 6)
+ * you got sources from SVN (it doesn't contain jar file)
+ * you need to run the library with older Java versions (release files contain library compiled using Java 6)
 
 In this case you need to install and set up Maven on your computer, then navigate to project's directory and run mvn package command. After these steps you will find library jar in 'target' directory.
