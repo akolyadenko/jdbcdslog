@@ -133,9 +133,9 @@ In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should
 
 jdbcdslog uses slf4j tool for logging. It means that all popular logging engine can be used for SQL logging with jdbcdslog. Currently slf4j supports following engines:
 
-* log4j
-* jakarta common logging
-* java util logging
-* console logging
+ * log4j
+ * jakarta common logging
+ * java util logging
+ * console logging
 
 If you want to connect jdbcdslog to your favorite logging engine, you need just download appropriate connector from slf4j.org web site and put it in your classpath. That's it.
