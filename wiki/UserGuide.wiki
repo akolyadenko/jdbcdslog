@@ -9,6 +9,8 @@
 [UserGuide#Configuring Configuring]
  * [UserGuide#Setup_logging_proxy Setup logging proxy]
   * [UserGuide#Manually_wrap_the_JDBC_Connection_object_in_the_code Manually wrap the JDBC Connection object in the code]
+  * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
+
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -103,7 +105,7 @@ That's it. Now all JDBC calls passed through loggingConnection object will be in
 
 In addition you can use JDBC Driver Logging Proxy. It will log all JDBC calls and transfer it to original JDBC Driver at the same time. 
 
-In this case you should use org.jdbcdslog.DriverLoggingProxy instead of the original JDBC Driver class and use jdbcdslog URL format for connection URL parameter:
+In this case you should use {{{org.jdbcdslog.DriverLoggingProxy}}} instead of the original JDBC Driver class and use jdbcdslog URL format for connection URL parameter:
 
 {{{jdbc:jdbcdslog:<original URL>;targetDriver=<original JDBC driver full class name>}}}
 
