@@ -38,4 +38,10 @@ In this case you need to install and set up Maven on your computer, then navigat
 
 After you got the library jar file, you will need to get the dependencies. Currently jdbcdslog directly depends only on 1.5.10 version of [http://www.slf4j.org/ slf4j] library. You will need to download the slf4j-api-1.5.10.jar file from [http://www.slf4j.org/ slf4j project's page].
 
-=Installing and configuring=
+=Installation and configuration=
+
+==Installing
+
+To install the jdbcdslog you just need to place library's jar and dependencies to classpath of your application.
+
+Initially you need to put jdbcdslog-0.1.jar and slf4j-api-1.5.10.jar to classpath. You may need to put other dependencies files depends on logging engine you will choose for the logging. Please look at logging section for more details. 
