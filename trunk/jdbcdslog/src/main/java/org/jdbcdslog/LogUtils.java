@@ -38,4 +38,11 @@ public class LogUtils {
 		}
 		return s;
 	}
+
+	public static String sqlValueToString(Object o) {
+		if(o instanceof String)
+			return "'" + o.toString() + "'";
+		else
+			return o.toString();
+	}
 }

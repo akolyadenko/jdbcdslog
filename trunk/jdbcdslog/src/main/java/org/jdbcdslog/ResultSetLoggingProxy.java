@@ -33,9 +33,9 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 			ResultSetMetaData md = rs.getMetaData();
 			StringBuffer s = new StringBuffer(fullMethodName).append(" {");
 			if(md.getColumnCount() > 0)
-				s.append("(").append(rs.getObject(1)).append(")");
+				s.append(LogUtils.sqlValueToString(rs.getObject(1)));
 			for(int i = 2; i <= md.getColumnCount(); i++)
-				s.append(", (").append(rs.getObject(i)).append(")");
+				s.append(LogUtils.sqlValueToString(rs.getObject(i)));
 			s.append("}");
 			logger.info(s.toString());
 		} 
