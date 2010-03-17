@@ -40,6 +40,8 @@ public class LogUtils {
 	}
 
 	public static String sqlValueToString(Object o) {
+		if(o == null)
+			return "null";
 		if(o instanceof String)
 			return "'" + o.toString() + "'";
 		else
