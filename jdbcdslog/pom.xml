@@ -65,7 +65,7 @@
 			<name>projectlibs</name>
 			<url>file:///${basedir}/lib</url>
 		</repository>
-	</repositories>
+	</repositories> 
 	<build>
 		<plugins>
 			<plugin>
