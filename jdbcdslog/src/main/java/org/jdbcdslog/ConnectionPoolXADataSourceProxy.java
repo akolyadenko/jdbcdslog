@@ -32,6 +32,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	Object targetDS = null;
 	
 	Map props = new HashMap();
+	
+	Map propClasses = new HashMap();
 
 	public ConnectionPoolXADataSourceProxy() throws JDBCDSLogException {
 	}
@@ -124,16 +126,17 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 			throw new SQLException("targetDS doesn't implement ConnectionPoolDataSource interface.");
 	}
 	
-	void invokeTargetSetMethod(String m, Object p) {
+	void invokeTargetSetMethod(String m, Object p, Class c) {
 		String methodName = "invokeTargetSetMethod() ";
 		if(targetDS == null) {
 			props.put(m, p);
+			propClasses.put(m, c);
 			return;
 		}
 		logger.debug(m + "(" + p.toString() + ")");
 		try {
 			Method me = targetDS.getClass().getMethod(m,
-					new Class[] { String.class });
+					new Class[] { c });
 			if (me != null)
 				me.invoke(targetDS, new Object[] { p });
 		} catch (Exception e) {
@@ -143,7 +146,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	
 	public void setURL(String url) throws JDBCDSLogException {
 			url = initTargetDS(url);
-			invokeTargetSetMethod("setURL", url);
+			invokeTargetSetMethod("setURL", url, String.class);
 	}
 
 	private String initTargetDS(String url) throws JDBCDSLogException {
@@ -183,57 +186,57 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	private void setPropertiesForTargetDS() {
 		for(Iterator i = props.keySet().iterator(); i.hasNext(); ) {
 			String m = (String)i.next();
-			invokeTargetSetMethod(m, props.get(m));
+			invokeTargetSetMethod(m, props.get(m), (Class)propClasses.get(m));
 		}
 	}
 
 	public void setDatabaseName(String p) {
-		invokeTargetSetMethod("setDatabaseName", p);
+		invokeTargetSetMethod("setDatabaseName", p, String.class);
 	}
 	
 	public void setDescription(String p) {
-		invokeTargetSetMethod("setDescription", p);
+		invokeTargetSetMethod("setDescription", p, String.class);
 	}
 	
 	public void setDataSourceName(String p) {
-		invokeTargetSetMethod("setDataSourceName", p);
+		invokeTargetSetMethod("setDataSourceName", p, String.class);
 	}
 	
 	public void setDriverType(String p) {
-		invokeTargetSetMethod("setDriverType", p);
+		invokeTargetSetMethod("setDriverType", p, String.class);
 	}
 	
 	public void setNetworkProtocol(String p) {
-		invokeTargetSetMethod("setNetworkProtocol", p);
+		invokeTargetSetMethod("setNetworkProtocol", p, String.class);
 	}
 	
 	public void setPassword(String p) {
-		invokeTargetSetMethod("setPassword", p);
+		invokeTargetSetMethod("setPassword", p, String.class);
 	}
 	
 	public void setPortNumber(int p) {
-		invokeTargetSetMethod("setPortNumber", new Integer(p));
+		invokeTargetSetMethod("setPortNumber", new Integer(p), int.class);
 	}
 	
 	public void setServerName(String p) {
-		invokeTargetSetMethod("setServerName", p);
+		invokeTargetSetMethod("setServerName", p, String.class);
 	}
 	
 	public void setServiceName(String p) {
-		invokeTargetSetMethod("setServiceName", p);
+		invokeTargetSetMethod("setServiceName", p, String.class);
 	}
 	
 	public void setTNSEntryName(String p) {
-		invokeTargetSetMethod("setTNSEntryName", p);
+		invokeTargetSetMethod("setTNSEntryName", p, String.class);
 	}
 	
 	public void setUser(String p) {
-		invokeTargetSetMethod("setUser", p);
+		invokeTargetSetMethod("setUser", p, String.class);
 	}
 	
 	public void setDatabase(String p) throws JDBCDSLogException {
 		p = initTargetDS(p);
-		invokeTargetSetMethod("setDatabase", p);
+		invokeTargetSetMethod("setDatabase", p, String.class);
 	}
 
 	public boolean isWrapperFor(Class iface) throws SQLException {

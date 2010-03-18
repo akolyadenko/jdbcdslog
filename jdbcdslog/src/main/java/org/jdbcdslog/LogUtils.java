@@ -4,8 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogUtils {
+	
+	static Logger logger = LoggerFactory.getLogger(LogUtils.class);
+	
 	public static void handleException(Throwable e, Logger l, StringBuffer msg) 
 		throws Throwable {
 		if(e instanceof InvocationTargetException) {
@@ -23,6 +27,8 @@ public class LogUtils {
 	}
 	
 	public static StringBuffer createLogEntry(Method method, Object sql, String parameters, String namedParameters) {
+		String methodName = "createLogEntry() ";
+		if(logger.isDebugEnabled()) logger.debug(methodName);
 		StringBuffer s = new StringBuffer(method.getDeclaringClass().getName())
 		.append(".").append(method.getName());
 		s.append(" ");
