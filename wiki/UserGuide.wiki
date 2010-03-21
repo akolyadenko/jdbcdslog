@@ -161,8 +161,8 @@ then you need to modify it in following way:
 {{{
 <Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
                maxActive="100" maxIdle="30" maxWait="10000"
-               username="sa" driverClassName="org.hsqldb.jdbcDriver"
-               url="jdbc:hsqldb:."/>
+               username="sa" driverClassName="org.jdbcdslog.DriverLoggingProxy"
+               url="jdbc:jdbcdslog:hsqldb:.;targetDriver=org.hsqldb.jdbcDriver"/>
 }}}
 
 Now you can start or restart your tomcat and watch SQL trace entries in the catalina.out file.
