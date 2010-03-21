@@ -13,6 +13,8 @@
   * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
   * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC !DataSource proxy]
  * [UserGuide#Setup_logging_engine Setup logging engine]
+[UserGuide#Configuration_examples Configuration examples]
+ * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -132,10 +134,35 @@ In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should
 ==Setup logging engine==
 
 jdbcdslog uses slf4j tool for logging. It means that all popular logging engine can be used for SQL logging with jdbcdslog. Currently slf4j supports following engines:
-
  * log4j
  * jakarta common logging
  * java util logging
  * System.out
 
 If you want to connect jdbcdslog to your favorite logging engine, you need just download appropriate connector from slf4j.org web site and put it in your classpath. That's it.
+
+=Configuration examples=
+
+==Configuring jdbcdslog on Resource level for Tomcat and HSQL==
+
+Copy  slf4j-api-1.5.10.jar, slf4j-simple-1.5.10.jar and jdbcdslog-0.1.jar to the TOMCAT_HOME/lib directory.
+
+context.xml file for your application should contain something like following:
+
+{{{
+<Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="sa" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:."/>
+}}}
+
+then you need to modify it in following way:
+
+{{{
+<Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="sa" driverClassName="org.hsqldb.jdbcDriver"
+               url="jdbc:hsqldb:."/>
+}}}
+
+Now you can start or restart your tomcat and watch SQL trace entries in the catalina.out file.
