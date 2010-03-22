@@ -49,7 +49,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				r = wrap(r, null);
 			return r;
 		} catch(Throwable t) {
-			LogUtils.handleException(t, logger
+			LogUtils.handleException(t, StatementLogger.logger
 					, LogUtils.createLogEntry(method, null, null, null));
 		}
 		return null;

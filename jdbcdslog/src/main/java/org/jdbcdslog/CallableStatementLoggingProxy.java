@@ -27,7 +27,7 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 		if(logger.isDebugEnabled()) logger.debug(methodName + "method = " + method);
 		Object r = null;
 		try {
-			boolean toLog = logger.isInfoEnabled() && executeMethods.contains(method.getName());
+			boolean toLog = StatementLogger.logger.isInfoEnabled() && executeMethods.contains(method.getName());
 			long t1 = 0;
 			if(toLog)
 				t1 = System.currentTimeMillis();
@@ -45,13 +45,12 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 				if(logger.isDebugEnabled()) logger.debug(methodName + "before log entry. namedParameters = " + namedParameters.toString());
 				StringBuffer s = LogUtils.createLogEntry(method, sql, parametersToString(), namedParameters.toString());
 				if(logger.isDebugEnabled()) logger.debug(methodName + "after log entry");
-				logger.info(s.append(" ").append(t2 - t1).append(" ms.").toString());
+				StatementLogger.logger.info(s.append(" ").append(t2 - t1).append(" ms.").toString());
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
-			if(logger.isErrorEnabled()) logger.error(t.getMessage(), t);
-			LogUtils.handleException(t, logger, 
+			LogUtils.handleException(t, StatementLogger.logger, 
 					LogUtils.createLogEntry(method, args[0], parametersToString(), namedParameters.toString()));
 		}
 		return r;	
