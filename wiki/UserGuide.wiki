@@ -15,7 +15,7 @@
  * [UserGuide#Setup_logging_engine Setup logging engine]
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
- * [UserGuide#Configuring_XA_DataSource_for_JBoss_with_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
+ * [UserGuide#Configuring_XA_DataSource,_for_JBoss_with_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
 
 =Obtaining the library jar=
 
@@ -169,7 +169,7 @@ then you need to modify it in following way:
 
 Now you can start or restart your tomcat and see SQL trace entries in the catalina.out file.
 
-==Configuring XA !DataSource for JBoss with log4j and Oracle==
+==Configuring XA !DataSource, for JBoss with log4j and Oracle==
 
 Copy jdbcdslog-0.1.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
 
