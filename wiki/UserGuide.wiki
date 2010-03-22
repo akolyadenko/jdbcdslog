@@ -219,3 +219,7 @@ Then you need to modify it:
 }}}
 
 After changes applied you will see jdbcdslog SQL entries in the logs. 
+
+=Performance=
+
+According to our stress tests jdbcdslog produces 20s overhead for 1 million queries or 0.02 ms per query with log4j and asynchronous appender.
