@@ -43,11 +43,11 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 		if(targetDS == null)
 			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof DataSource) {
-			Connection con = ConnectionLoggingProxy.wrap(((DataSource)targetDS).getConnection());
+			Connection con = ((DataSource)targetDS).getConnection();
 			if(ConnectionLogger.logger.isInfoEnabled())
 				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
 						+ con.getMetaData().getUserName());
-			return con;
+			return ConnectionLoggingProxy.wrap(con);
 		}
 		else 
 			throw new SQLException("targetDS doesn't implement DataSource interface.");
@@ -55,8 +55,13 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	public Connection getConnection(String username, String password)
 			throws SQLException {
-		if(targetDS instanceof DataSource)
-			return ConnectionLoggingProxy.wrap(((DataSource)targetDS).getConnection(username, password));
+		if(targetDS instanceof DataSource) {
+			Connection con = ((DataSource)targetDS).getConnection(username, password);
+			if(ConnectionLogger.logger.isInfoEnabled())
+				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
+						+ con.getMetaData().getUserName());
+			return ConnectionLoggingProxy.wrap(con);
+		}
 		else
 			throw new SQLException("targetDS doesn't implement DataSource interface.");
 	}
@@ -102,8 +107,10 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public XAConnection getXAConnection() throws SQLException {
-		if(targetDS instanceof XADataSource)
-			return XAConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection());
+		if(targetDS instanceof XADataSource) {
+			XAConnection con = ((XADataSource)targetDS).getXAConnection();
+			return XAConnectionLoggingProxy.wrap(con);
+		}
 		else
 			throw new SQLException("targetDS doesn't implement XADataSource interface.");
 	}
