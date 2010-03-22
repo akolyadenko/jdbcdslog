@@ -39,11 +39,16 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public Connection getConnection() throws SQLException {
-		logger.info("getConnection()");
+		
 		if(targetDS == null)
 			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
-		if(targetDS instanceof DataSource)
-			return ConnectionLoggingProxy.wrap(((DataSource)targetDS).getConnection());
+		if(targetDS instanceof DataSource) {
+			Connection con = ConnectionLoggingProxy.wrap(((DataSource)targetDS).getConnection());
+			if(ConnectionLogger.logger.isInfoEnabled())
+				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
+						+ con.getMetaData().getUserName());
+			return con;
+		}
 		else 
 			throw new SQLException("targetDS doesn't implement DataSource interface.");
 	}
@@ -140,7 +145,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 			if (me != null)
 				me.invoke(targetDS, new Object[] { p });
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			ConnectionLogger.logger.error(e.getMessage(), e);
 		}
 	}
 	
@@ -178,7 +183,7 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 			setPropertiesForTargetDS();
 			return url;
 		} catch (Throwable t) {
-			logger.error(t.getMessage(), t);
+			ConnectionLogger.logger.error(t.getMessage(), t);
 			throw new JDBCDSLogException(t);
 		}
 	}
