@@ -16,6 +16,7 @@
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
  * [UserGuide#Configuring_XA_DataSource_for_JBoss_with_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
+[UserGuide#Performance Performance]
 
 =Obtaining the library jar=
 
@@ -216,6 +217,14 @@ Then you need to modify it:
     <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
     <no-tx-separate-pools></no-tx-separate-pools>
   </xa-datasource>
+}}}
+
+and add jdbcdslog category entry to log4j configuration file. I.e. you can add following to jboss-log4j.xml:
+
+{{{
+<category name="org.jdbcdslog">
+    <priority value="INFO"/>
+</category>
 }}}
 
 After changes applied you will see jdbcdslog SQL entries in the logs. 
