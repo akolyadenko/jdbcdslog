@@ -169,7 +169,7 @@ then you need to modify it in following way:
 
 Now you can start or restart your tomcat and see SQL trace entries in the catalina.out file.
 
-==Configuring XA DataSource for JBoss with log4j and Oracle==
+==Configuring XA !DataSource for JBoss with log4j and Oracle==
 
 Copy jdbcdslog-0.1.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
 
