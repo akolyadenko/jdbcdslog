@@ -15,6 +15,8 @@
  * [UserGuide#Setup_logging_engine Setup logging engine]
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
+ * [UserGuide#Configuring_jdbcdslog_for_XA_DataSource,_JBoss,_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
+
 =Obtaining the library jar=
 
 There are three options for obtaining the files for the library. 
@@ -165,4 +167,43 @@ then you need to modify it in following way:
                url="jdbc:jdbcdslog:hsqldb:.;targetDriver=org.hsqldb.jdbcDriver"/>
 }}}
 
-Now you can start or restart your tomcat and watch SQL trace entries in the catalina.out file.
+Now you can start or restart your tomcat and see SQL trace entries in the catalina.out file.
+
+==Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle==
+
+Copy jdbcdslog-0.1.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
+
+You already should have definition of DataSource like:
+
+{{{
+  <xa-datasource>
+    <jndi-name>OracleDS</jndi-name>
+    <track-connection-by-tx></track-connection-by-tx>
+    <isSameRM-override-value>false</isSameRM-override-value>
+    <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
+    <xa-datasource-property name="URL">jdbc:oracle:oci8:@db</xa-datasource-property>
+    <xa-datasource-property name="User">user</xa-datasource-property>
+    <xa-datasource-property name="Password">password</xa-datasource-property>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+    <no-tx-separate-pools></no-tx-separate-pools>
+  </xa-datasource>
+
+}}}
+
+Then you need to modify it:
+
+{{{
+  <xa-datasource>
+    <jndi-name>OracleDS</jndi-name>
+    <track-connection-by-tx></track-connection-by-tx>
+    <isSameRM-override-value>false</isSameRM-override-value>
+    <xa-datasource-class>org.jdbcdslog.ConnectionPoolXADataSourceProxy</xa-datasource-class>
+    <xa-datasource-property name="URL">jdbc:oracle:oci8:@db?targetDS=oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-property>
+    <xa-datasource-property name="User">user</xa-datasource-property>
+    <xa-datasource-property name="Password">password</xa-datasource-property>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+    <no-tx-separate-pools></no-tx-separate-pools>
+  </xa-datasource>
+}}}
+
+After changes applied you will see jdbcdslog SQL entries in the logs. 
