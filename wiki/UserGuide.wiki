@@ -15,7 +15,7 @@
  * [UserGuide#Setup_logging_engine Setup logging engine]
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
- * [UserGuide#Configuring_jdbcdslog_for_XA_DataSource,_JBoss,_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
+ * [UserGuide#Configuring_jdbcdslog_for_XA_DataSource_JBoss_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
 
 =Obtaining the library jar=
 
