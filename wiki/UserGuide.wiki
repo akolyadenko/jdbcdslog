@@ -11,7 +11,7 @@
  * [UserGuide#Setup_logging_proxy Setup logging proxy]
   * [UserGuide#Manually_wrap_the_JDBC_Connection_object_in_the_code Manually wrap the JDBC Connection object in the code]
   * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
-  * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC !DataSource proxy]
+  * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC DataSource proxy]
  * [UserGuide#Setup_logging_engine Setup logging engine]
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
