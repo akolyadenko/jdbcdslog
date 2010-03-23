@@ -152,7 +152,7 @@ jdbcdslog provides 3 loggers(in terms of log4j and jakarta commons) to maintain 
 
 All SQL trace entries are available on INFO and ERROR levels.
 
-DEBUG level for other jdbcdslog classes will produce tons of debug logging entries. Usually you don't want to turn in on.
+DEBUG level for other jdbcdslog classes will produce tons of debug log entries. Usually you don't want to turn it on.
 
 =Configuration examples=
 
