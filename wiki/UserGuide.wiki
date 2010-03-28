@@ -146,11 +146,11 @@ If you want to connect jdbcdslog to your favorite logging engine, you need just 
 
 jdbcdslog provides 3 loggers(in terms of log4j and jakarta commons) to maintain logging level:
 
- * org.jdbcdslog.!ConnectionLogger - trace connection details. It produce following log entries:
+ * org.jdbcdslog.!ConnectionLogger - trace connection details. It produces following log entries:
 {{{56 [main] INFO org.jdbcdslog.ConnectionLogger - connect to URL jdbc:hsqldb:. with properties: {user=sa}}}}
- * org.jdbcdslog.!StatementLogger - trace statements sent to DB. It produce following log entries:
+ * org.jdbcdslog.!StatementLogger - trace statements sent to DB. It produces following log entries:
 {{{62627 [http-8080-1] INFO org.jdbcdslog.StatementLogger - java.sql.PreparedStatement.executeQuery select id from user where username = ? parameters: {'admin'} 12ms.}}}
- * org.jdbcdslog.!ResultSetLogger - trace query results
+ * org.jdbcdslog.!ResultSetLogger - trace query results. It produces following log entries:
 
 All SQL trace entries are available on INFO and ERROR levels.
 
