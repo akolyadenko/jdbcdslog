@@ -81,7 +81,7 @@ After you got the library jar file, you will need to get the dependencies. Curre
 
 To install the jdbcdslog you just need to place library's jar and dependencies to classpath of your application.
 
-Initially you need to put jdbcdslog-0.1.jar and slf4j-api-1.5.10.jar to classpath. Some of the dependencies can be found in lib directory of jdbcdslog distro zip file, but another mat need to be  downloaded from external projects web site(i.e. slf4j.org). You may need to put other dependencies files depends on logging engine you will choose for the logging. Please look at logging section for more details. 
+Initially you need to put jdbcdslog-0.1.jar and slf4j-api-1.5.10.jar to classpath. Some of the dependencies could be found in lib directory of jdbcdslog distro zip file, but another may need to be  downloaded from external projects web site(i.e. slf4j.org). You may need to put other dependencies files depends on logging engine you will choose for the logging. Please look at logging section for more details. 
 
 =Configuring=
 
