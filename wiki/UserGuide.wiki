@@ -75,7 +75,7 @@ If you need to specify the path to your target JDK manually, you may specify it 
 
 ==Obtaining dependencies==
 
-After you got the library jar file, you will need to get the dependencies. Currently jdbcdslog directly depends only on 1.5.10 version of [http://www.slf4j.org/ slf4j] library. You will need to download the slf4j-api-1.5.10.jar file from [http://www.slf4j.org/ slf4j project's page].
+After you got the library jar file, you will need to get the dependencies. Currently jdbcdslog directly depends only on 1.5.10+ version of [http://www.slf4j.org/ slf4j] library. You will need to download the slf4j-api-1.5.10.jar file from [http://www.slf4j.org/ slf4j project's page].
 
 =Installation=
 
