@@ -39,7 +39,8 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 		Object r = null;
 		try {
 			long t1 = 0;
-			boolean toLog = StatementLogger.logger.isInfoEnabled() && executeMethods.contains(method.getName());
+			boolean toLog = (StatementLogger.logger.isInfoEnabled()
+					|| SlowQueryLogger.logger.isInfoEnabled()) && executeMethods.contains(method.getName());
 			if(toLog)
 				t1 = System.currentTimeMillis();
 			r = method.invoke(target, args);
@@ -49,8 +50,12 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 				parameters = new TreeMap();
 			if(toLog) {
 				long t2 = System.currentTimeMillis();
+				long time = t2 - t1;
 				StringBuffer sb = LogUtils.createLogEntry(method, sql, parametersToString(), null);
-				StatementLogger.logger.info(sb.append(" ").append(t2 - t1).append(" ms.").toString());
+				String logEntry = sb.append(" ").append(time).append(" ms.").toString();
+				StatementLogger.logger.info(logEntry);
+				if(time >= ConfigurationParameters.slowQueryThreshold)
+					SlowQueryLogger.logger.info(logEntry);
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r); 
