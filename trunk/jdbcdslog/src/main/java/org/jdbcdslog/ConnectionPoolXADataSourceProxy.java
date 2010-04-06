@@ -55,6 +55,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	public Connection getConnection(String username, String password)
 			throws SQLException {
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof DataSource) {
 			Connection con = ((DataSource)targetDS).getConnection(username, password);
 			if(ConnectionLogger.logger.isInfoEnabled())
@@ -107,6 +109,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public XAConnection getXAConnection() throws SQLException {
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof XADataSource) {
 			XAConnection con = ((XADataSource)targetDS).getXAConnection();
 			return XAConnectionLoggingProxy.wrap(con);
@@ -117,6 +121,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	public XAConnection getXAConnection(String user, String password)
 			throws SQLException {
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof XADataSource)
 			return XAConnectionLoggingProxy.wrap(((XADataSource)targetDS).getXAConnection(user, password));
 		else
@@ -124,6 +130,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 	}
 
 	public PooledConnection getPooledConnection() throws SQLException {
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof ConnectionPoolDataSource)
 			return PooledConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection());
 		else
@@ -132,6 +140,8 @@ public class ConnectionPoolXADataSourceProxy implements DataSource, XADataSource
 
 	public PooledConnection getPooledConnection(String user, String password)
 			throws SQLException {
+		if(targetDS == null)
+			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof ConnectionPoolDataSource)
 			return PooledConnectionLoggingProxy.wrap(((ConnectionPoolDataSource)targetDS).getPooledConnection(user, password));
 		else
