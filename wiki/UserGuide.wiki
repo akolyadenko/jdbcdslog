@@ -13,6 +13,7 @@
   * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
   * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC DataSource proxy]
  * [UserGuide#Setup_logging_engine Setup logging engine]
+ * [UserGuide#Configuration_parameters Configuration parameters]
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
  * [UserGuide#Configuring_XA_DataSource_for_JBoss_with_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
