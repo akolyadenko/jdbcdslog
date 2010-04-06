@@ -163,6 +163,14 @@ All SQL trace entries are available on INFO and ERROR levels.
 
 DEBUG level for other jdbcdslog classes will produce tons of debug log entries. Usually you don't want to turn it on.
 
+==Configuration parameters==
+
+jdbcdslog can get configuration parameters. It can be passed as JVM parameters (i.e. -Djdbcdslog.slowQueryThreshold=1000) or specified in the jdbcdslog.properties file. jdbcdslog.properties file should be located in the classpath of your application.
+
+For now jdbcdslog supports only one parameter:
+
+jdbcdslog.slowQueryThreshold - if some SQL query gets more time then specified in this parameter, it will be logged by !SlowQueryLogger. Parameter should contain the time in milliseconds.
+
 =Configuration examples=
 
 ==Configuring jdbcdslog on Resource level for Tomcat and HSQL==
