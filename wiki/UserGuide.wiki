@@ -158,6 +158,7 @@ jdbcdslog provides 3 loggers(in terms of log4j and jakarta commons) to maintain 
  * org.jdbcdslog.!StatementLogger - trace statements sent to DB. It produces following log entries:
 {{{62627 [http-8080-1] INFO org.jdbcdslog.StatementLogger - java.sql.PreparedStatement.executeQuery select id, email from user where username = ? parameters: {'admin'} 12ms.}}}
  * org.jdbcdslog.!SlowQueryLogger - trace slow statements sent to DB. If query takes more time then specified by jdbcdslog.slowQueryThreshold, it will be logged. 
+
  * org.jdbcdslog.!ResultSetLogger - trace query results. It produces following log entries:
 {{{62118 [http-8080-2] INFO org.jdbcdslog.ResultSetLogger - java.sql.ResultSet.next {1234, 'root@a.com'}}}}
 
