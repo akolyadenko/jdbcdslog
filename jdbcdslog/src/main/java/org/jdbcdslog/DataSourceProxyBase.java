@@ -190,6 +190,19 @@ public class DataSourceProxyBase implements Serializable {
 			if (targetDSName == null)
 				return url;
 			url = url.substring(0, url.length() - targetDSName.length() - targetDSParameter.length() - 2);
+			setTargetDS(targetDSName);
+			return url;
+		} catch (Throwable t) {
+			ConnectionLogger.logger.error(t.getMessage(), t);
+			throw new JDBCDSLogException(t);
+		}
+	}
+
+	public void setTargetDS(String targetDSName)
+			throws JDBCDSLogException,
+			InstantiationException, IllegalAccessException {
+		String methodName = "setTargetDS() ";
+		try {
 			Class cl = Class.forName(targetDSName);
 			if (cl == null)
 				throw new JDBCDSLogException("Can't load class of targetDS.");
@@ -197,8 +210,7 @@ public class DataSourceProxyBase implements Serializable {
 			targetDS = targetObj;
 			logger.debug(methodName + "targetDS initialized.");
 			setPropertiesForTargetDS();
-			return url;
-		} catch (Throwable t) {
+		} catch(Throwable t) {
 			ConnectionLogger.logger.error(t.getMessage(), t);
 			throw new JDBCDSLogException(t);
 		}
