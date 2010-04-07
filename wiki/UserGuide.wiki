@@ -131,7 +131,7 @@ After this all JDBC connections for new URL will use ldbcdslog logging proxy, al
 
 Also you can setup logging on !DataSource level. The idea is the same as for JDBC Driver Proxy -- jdbcdslog !DataSource proxy intercepts and log all JDBC calls.
 
-In this case you should use one of the following classes {{{org.jdbcdslog.ConnectionPoolXADataSourceProxy}}} instead of your original !DataSource class and pass additional parameter {{{targetDS}}} to the !DataBase or URL setting for !DataSource:
+In this case you should use one of the following classes {{{org.jdbcdslog.ConnectionPoolXADataSourceProxy}}} instead of your original !DataSource class:
  * {{{org.jdbcdslog.ConnectionPoolXADataSourceProxy}}}
  * {{{org.jdbcdslog.XADataSourceProxy}}}
  * {{{org.jdbcdslog.ConnectionPoolDataSourceProxy}}}
@@ -139,7 +139,11 @@ In this case you should use one of the following classes {{{org.jdbcdslog.Connec
 
 Your choice should based on the type of your original !DataSource: is it XA, or Pooled or XA and Pooled?
 
-In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should transform it to {{{jdbc:hsqldb:mem:mymemdb;targetDS=<original DataSource full class name>}}}.
+Now you need to pass original JDBC DataSource class name to proxy. You can use one of the following to choices:
+
+ * pass additional parameter {{{targetDS}}} to the !DataBase or URL setting for !DataSource. In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should transform it to {{{jdbc:hsqldb:mem:mymemdb;targetDS=<original DataSource full class name>}}}.
+
+ * pass custom parameter targetDS with original !DataSource class name to the xDataSourceProxy in your J2EE/Servlets container settings. 
 
 ==Setup logging engine==
 
