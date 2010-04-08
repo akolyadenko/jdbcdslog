@@ -19,7 +19,8 @@ public class ConfigurationParameters {
 		try {
 			in = loader.getResourceAsStream("jdbcdslog.properties");
 			Properties props = new Properties(System.getProperties());
-			props.load(in);
+			if(in != null)
+				props.load(in);
 			String sSlowQueryThreshold = props.getProperty("jdbcdslog.slowQueryThreshold");
 			if(sSlowQueryThreshold != null && isLong(sSlowQueryThreshold))
 				slowQueryThreshold = Long.parseLong(sSlowQueryThreshold);
