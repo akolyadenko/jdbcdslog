@@ -14,7 +14,7 @@
     	<param name="blocking" value="false"/>
     	<param name="bufferSize" value="100000"/>
   	</appender>
-  	<logger name = "org.jdbcdslog.SlowQueryLogger">
+  	<logger name = "org.jdbcdslog">
   		<level value = "all"/>
   	</logger>
     <root>
