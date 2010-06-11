@@ -3,6 +3,8 @@ package org.jdbcdslog;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
+import org.hsqldb.jdbc.jdbcDataSource;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -37,6 +39,20 @@ public class ConnectionPoolXADataSourceProxyTest extends TestCase {
 		con.createStatement().execute("create table test5 (a integer)");
 		con.createStatement().execute("insert into test5 values(1)");
 		ResultSet rs = con.createStatement().executeQuery("select * from test5");
+		rs.close();
+		con.close();
+	}
+	
+	public void testSetTargetDSDirect() throws Exception {
+		org.hsqldb.jdbc.jdbcDataSource ds = new jdbcDataSource();
+		ds.setDatabase("jdbc:hsqldb:mem:mymemdb");
+		ds.setUser("sa");
+		ConnectionPoolXADataSourceProxy ds2 = new ConnectionPoolXADataSourceProxy();
+		ds2.setTargetDSDirect(ds);
+		Connection con = ds2.getConnection();
+		con.createStatement().execute("create table test6 (a integer)");
+		con.createStatement().execute("insert into test6 values(1)");
+		ResultSet rs = con.createStatement().executeQuery("select * from test6");
 		rs.close();
 		con.close();
 	}
