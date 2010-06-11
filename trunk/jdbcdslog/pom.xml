@@ -5,7 +5,7 @@
 	<groupId>jdbcdslog</groupId>
 	<artifactId>jdbcdslog</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>jdbcdslog</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
