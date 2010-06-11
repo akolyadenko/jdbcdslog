@@ -198,6 +198,12 @@ public class DataSourceProxyBase implements Serializable {
 		}
 	}
 
+    public void setTargetDSDirect(Object dataSource) {
+        String methodName = "setTargetDSDirect() ";
+        targetDS = dataSource;
+        logger.debug(methodName + "targetDS initialized.");
+    }
+
 	public void setTargetDS(String targetDSName)
 			throws JDBCDSLogException,
 			InstantiationException, IllegalAccessException {
