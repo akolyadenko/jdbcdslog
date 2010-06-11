@@ -11,6 +11,7 @@
  * [UserGuide#Setup_logging_proxy Setup logging proxy]
   * [UserGuide#Manually_wrap_the_JDBC_Connection_object_in_the_code Manually wrap the JDBC Connection object in the code]
   * [UserGuide#Using_JDBC_Driver_Proxy Using JDBC Driver Proxy]
+  * [UserGuide#Wrap_DataSource_manually_or_using_DI_framework Wrap DataSource manually or using DI framework]
   * [UserGuide#Setup_logging_JDBC_DataSource_proxy Setup logging JDBC DataSource proxy]
  * [UserGuide#Setup_logging_engine Setup logging engine]
  * [UserGuide#Configuration_parameters Configuration parameters]
@@ -144,6 +145,30 @@ Now you need to pass original JDBC DataSource class name to proxy. You can use o
  * pass additional parameter {{{targetDS}}} to the !DataBase or URL setting for !DataSource. In example if our original URL is {{{jdbc:hsqldb:mem:mymemdb}}}, then you should transform it to {{{jdbc:hsqldb:mem:mymemdb;targetDS=<original DataSource full class name>}}}.
 
  * pass custom parameter targetDS with original !DataSource class name to the xDataSourceProxy in your J2EE/Servlets container settings. 
+
+===Wrap !DataSource manually or using DI framework===
+
+All jdbcdslog logging proxy classes have targetDSDirect property, and you can wrap any !DataSource object by following code using this property:
+
+{{{
+  ConnectionPoolXADataSourceProxy ds = new ConnectionPoolXADataSourceProxy();
+  ds.setTargetDSDirect(originalDS);
+}}} 
+
+In addition you can use this property to wrap existing !DataSource in DI frameworks(in Spring for example):
+
+{{{
+<bean id="dataSourceActual"
+class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName">
+        <value>java:comp/env/jdbc/MyDatasource</value>
+    </property>
+</bean>
+
+<bean id="dataSource" class="org.jdbcdslog.ConnectionPoolDataSourceProxy">
+    <property name="targetDSDirect" ref="dataSourceActual" />
+</bean>
+}}}
 
 ==Setup logging engine==
 
