@@ -40,7 +40,7 @@ public class StatementLoggingProxy implements InvocationHandler {
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 			if(toLog) {
 				long t2 = System.currentTimeMillis();
-				StringBuffer sb = LogUtils.createLogEntry(method, args[0], null, null);
+				StringBuffer sb = LogUtils.createLogEntry(method, args == null ? null : args[0], null, null);
 				long time = t2 - t1;
 				String logEntry = sb.append(" ").append(time).append(" ms.").toString();
 				StatementLogger.logger.info(logEntry);

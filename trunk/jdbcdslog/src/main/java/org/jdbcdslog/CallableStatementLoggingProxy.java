@@ -32,7 +32,7 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 			long t1 = 0;
 			if(toLog)
 				t1 = System.currentTimeMillis();
-			if(logger.isDebugEnabled()) logger.debug(methodName + "before method call.");
+			if(logger.isDebugEnabled()) logger.debug(methodName + "before method call..");
 			r = method.invoke(target, args);
 			if(logger.isDebugEnabled()) logger.debug(methodName + "after method call. result = " + r);
 			if(setMethods.contains(method.getName()) && args[0] instanceof Integer)
@@ -54,7 +54,7 @@ public class CallableStatementLoggingProxy extends PreparedStatementLoggingProxy
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r);
 		} catch(Throwable t) {
 			LogUtils.handleException(t, StatementLogger.logger, 
-					LogUtils.createLogEntry(method, args[0], parametersToString(), namedParameters.toString()));
+					LogUtils.createLogEntry(method, sql, parametersToString(), namedParameters.toString()));
 		}
 		return r;	
 	}
