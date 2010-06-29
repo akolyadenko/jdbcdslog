@@ -4,5 +4,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ResultSetLogger {
-	public static Logger logger = LoggerFactory.getLogger(ResultSetLogger.class);
+	private static Logger logger = LoggerFactory.getLogger(ResultSetLogger.class);
+	
+	public static void info(String s) {
+		logger.info(s);
+	}
+	
+	public static boolean isInfoEnabled() {
+		return logger.isInfoEnabled();
+	}
+	
+	public static void error(String m, Throwable t) {
+		logger.error(m, t);
+	}
+	
+	public static Logger getLogger() {
+		return logger;
+	}
 }

@@ -36,13 +36,13 @@ public class DriverLoggingProxy implements Driver {
 	}
 
 	public Connection connect(String url, Properties info) throws SQLException {
-		if(ConnectionLogger.logger.isInfoEnabled()) {
+		if(ConnectionLogger.isInfoEnabled()) {
 			StringBuffer sb = new StringBuffer();
 			sb.append("connect to URL ")
 				.append(url)
 				.append(" with properties: ")
 				.append(info.toString());
-			ConnectionLogger.logger.info(sb.toString());
+			ConnectionLogger.info(sb.toString());
 		}
 		if(!acceptsURL(url))
 			throw new SQLException("Invalid URL" + url);
@@ -64,7 +64,7 @@ public class DriverLoggingProxy implements Driver {
 			Class.forName(targetDriver);
 			return ConnectionLoggingProxy.wrap(DriverManager.getConnection(url, info));
 		} catch (Exception e) {
-			ConnectionLogger.logger.error(e.getMessage(), e);
+			ConnectionLogger.error(e.getMessage(), e);
 			throw new SQLException(e.getMessage());
 		}
 	}

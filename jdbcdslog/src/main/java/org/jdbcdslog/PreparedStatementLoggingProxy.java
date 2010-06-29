@@ -39,8 +39,8 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 		Object r = null;
 		try {
 			long t1 = 0;
-			boolean toLog = (StatementLogger.logger.isInfoEnabled()
-					|| SlowQueryLogger.logger.isInfoEnabled()) && executeMethods.contains(method.getName());
+			boolean toLog = (StatementLogger.isInfoEnabled()
+					|| SlowQueryLogger.isInfoEnabled()) && executeMethods.contains(method.getName());
 			if(toLog)
 				t1 = System.currentTimeMillis();
 			r = method.invoke(target, args);
@@ -53,14 +53,14 @@ public class PreparedStatementLoggingProxy implements InvocationHandler {
 				long time = t2 - t1;
 				StringBuffer sb = LogUtils.createLogEntry(method, sql, parametersToString(), null);
 				String logEntry = sb.append(" ").append(time).append(" ms.").toString();
-				StatementLogger.logger.info(logEntry);
+				StatementLogger.info(logEntry);
 				if(time >= ConfigurationParameters.slowQueryThreshold)
-					SlowQueryLogger.logger.info(logEntry);
+					SlowQueryLogger.info(logEntry);
 			}
 			if(r instanceof ResultSet)
 				r = ResultSetLoggingProxy.wrapByResultSetProxy((ResultSet)r); 
 		} catch(Throwable t) {
-			LogUtils.handleException(t, StatementLogger.logger, LogUtils.createLogEntry(method, sql, parametersToString(), null));
+			LogUtils.handleException(t, StatementLogger.getLogger(), LogUtils.createLogEntry(method, sql, parametersToString(), null));
 		}
 		return r;
 	}

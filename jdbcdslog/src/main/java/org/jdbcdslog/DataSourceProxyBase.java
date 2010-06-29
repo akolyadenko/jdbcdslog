@@ -43,8 +43,8 @@ public class DataSourceProxyBase implements Serializable {
 			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof DataSource) {
 			Connection con = ((DataSource)targetDS).getConnection();
-			if(ConnectionLogger.logger.isInfoEnabled())
-				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
+			if(ConnectionLogger.isInfoEnabled())
+				ConnectionLogger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
 						+ con.getMetaData().getUserName());
 			return ConnectionLoggingProxy.wrap(con);
 		}
@@ -58,8 +58,8 @@ public class DataSourceProxyBase implements Serializable {
 			throw new SQLException("targetDS parameter has not been passed to Database or URL property.");
 		if(targetDS instanceof DataSource) {
 			Connection con = ((DataSource)targetDS).getConnection(username, password);
-			if(ConnectionLogger.logger.isInfoEnabled())
-				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
+			if(ConnectionLogger.isInfoEnabled())
+				ConnectionLogger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
 						+ con.getMetaData().getUserName());
 			return ConnectionLoggingProxy.wrap(con);
 		}
@@ -161,7 +161,7 @@ public class DataSourceProxyBase implements Serializable {
 			if (me != null)
 				me.invoke(targetDS, new Object[] { p });
 		} catch (Exception e) {
-			ConnectionLogger.logger.error(e.getMessage(), e);
+			ConnectionLogger.error(e.getMessage(), e);
 		}
 	}
 	
@@ -193,7 +193,7 @@ public class DataSourceProxyBase implements Serializable {
 			setTargetDS(targetDSName);
 			return url;
 		} catch (Throwable t) {
-			ConnectionLogger.logger.error(t.getMessage(), t);
+			ConnectionLogger.error(t.getMessage(), t);
 			throw new JDBCDSLogException(t);
 		}
 	}
@@ -217,7 +217,7 @@ public class DataSourceProxyBase implements Serializable {
 			logger.debug(methodName + "targetDS initialized.");
 			setPropertiesForTargetDS();
 		} catch(Throwable t) {
-			ConnectionLogger.logger.error(t.getMessage(), t);
+			ConnectionLogger.error(t.getMessage(), t);
 			throw new JDBCDSLogException(t);
 		}
 	}

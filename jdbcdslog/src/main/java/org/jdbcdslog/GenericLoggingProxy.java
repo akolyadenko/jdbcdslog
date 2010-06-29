@@ -49,7 +49,7 @@ public class GenericLoggingProxy implements InvocationHandler  {
 				r = wrap(r, null);
 			return r;
 		} catch(Throwable t) {
-			LogUtils.handleException(t, ConnectionLogger.logger
+			LogUtils.handleException(t, ConnectionLogger.getLogger()
 					, LogUtils.createLogEntry(method, null, null, null));
 		}
 		return null;
@@ -58,8 +58,8 @@ public class GenericLoggingProxy implements InvocationHandler  {
 	private Object wrap(Object r, String sql) throws Exception {
 		if(r instanceof Connection) {
 			Connection con = (Connection)r;
-			if(ConnectionLogger.logger.isInfoEnabled())
-				ConnectionLogger.logger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
+			if(ConnectionLogger.isInfoEnabled())
+				ConnectionLogger.info("connect to URL " + con.getMetaData().getURL() + " for user " 
 						+ con.getMetaData().getUserName());
 			return wrapByGenericProxy(r, Connection.class, sql);
 		}
