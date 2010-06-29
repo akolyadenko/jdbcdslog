@@ -7,7 +7,7 @@ public class SlowQueryLogger {
 	private static Logger logger = LoggerFactory.getLogger(SlowQueryLogger.class);
 	
 	public static void info(String s) {
-		logger.info(s);
+		logger.info(s + LogUtils.getStackTrace());
 	}
 	
 	public static boolean isInfoEnabled() {

@@ -7,7 +7,7 @@ public class ConnectionLogger {
 	private static Logger logger = LoggerFactory.getLogger(ConnectionLogger.class);
 	
 	public static void info(String s) {
-		logger.info(s);
+		logger.info(s + LogUtils.getStackTrace());
 	}
 	
 	public static void error(String m, Throwable t) {

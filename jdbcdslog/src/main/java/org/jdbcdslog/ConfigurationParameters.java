@@ -13,6 +13,8 @@ public class ConfigurationParameters {
 	
 	static long slowQueryThreshold = Long.MAX_VALUE;
 	
+	static boolean printStackTrace = true;
+	
 	static boolean logText = false;
 	
 	static {
@@ -31,6 +33,9 @@ public class ConfigurationParameters {
 			String sLogText = props.getProperty("jdbcdslog.logText");
 			if("true".equalsIgnoreCase(sLogText))
 				logText = true;
+			String sprintStackTrace = props.getProperty("jdbcdslog.printStackTrace");
+			if("true".equalsIgnoreCase(sprintStackTrace))
+				printStackTrace = true;
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {

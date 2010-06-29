@@ -7,7 +7,7 @@ public class StatementLogger {
 	private static Logger logger = LoggerFactory.getLogger(StatementLogger.class);
 	
 	public static void info(String s) {
-		logger.info(s);
+		logger.info(s + LogUtils.getStackTrace());
 	}
 	
 	public static boolean isInfoEnabled() {
