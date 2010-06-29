@@ -202,7 +202,9 @@ jdbcdslog can get configuration parameters. It can be passed as JVM parameters (
 For now jdbcdslog supports following parameters:
 
  * jdbcdslog.slowQueryThreshold - if some SQL query gets more time then specified in this parameter, it will be logged by !SlowQueryLogger. Parameter should contain the time in milliseconds.
+
  * jdbcdslog.logText - jdbcdslog will log Reader object's content for !PreparedStatement and !ResultSet if this parameter set to 'true' value.
+
  * jdbcdslog.printStackTrace - jdbcdslog will log calling method stack trace if this parameter set to 'true' value 
   
 =Configuration examples=
