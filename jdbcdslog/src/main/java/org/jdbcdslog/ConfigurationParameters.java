@@ -13,6 +13,8 @@ public class ConfigurationParameters {
 	
 	static long slowQueryThreshold = Long.MAX_VALUE;
 	
+	static boolean logText = false;
+	
 	static {
 		ClassLoader loader = ConfigurationParameters.class.getClassLoader();
 		InputStream in = null;
@@ -26,6 +28,9 @@ public class ConfigurationParameters {
 				slowQueryThreshold = Long.parseLong(sSlowQueryThreshold);
 			if(slowQueryThreshold == -1)
 				slowQueryThreshold = Long.MAX_VALUE;
+			String sLogText = props.getProperty("jdbcdslog.logText");
+			if("true".equalsIgnoreCase(sLogText))
+				logText = true;
 		} catch(Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {
@@ -36,6 +41,10 @@ public class ConfigurationParameters {
 					logger.error(e.getMessage(), e);
 				}
 		}
+	}
+	
+	public static void setLogText(boolean alogText) {
+		logText = alogText;
 	}
 
 	private static boolean isLong(String sSlowQueryThreshold) {
