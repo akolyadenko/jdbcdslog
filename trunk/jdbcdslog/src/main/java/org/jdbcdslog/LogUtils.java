@@ -2,7 +2,6 @@ package org.jdbcdslog;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -79,6 +78,15 @@ public class LogUtils {
 		}
 		sb.insert(0, "'");
 		sb.append("'");
+		return sb.toString();
+	}
+	
+	public static String getStackTrace() {
+		if(!ConfigurationParameters.printStackTrace)
+			return "";
+		StackTraceElement stackTraces[] = new Throwable().getStackTrace();
+		StringBuffer sb = new StringBuffer(" at ");
+		sb.append(stackTraces[4]);
 		return sb.toString();
 	}
 }
