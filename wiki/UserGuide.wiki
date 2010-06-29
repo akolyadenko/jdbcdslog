@@ -205,7 +205,7 @@ For now jdbcdslog supports following parameters:
 
  * jdbcdslog.logText - jdbcdslog will log Reader object's content for !PreparedStatement and !ResultSet if this parameter set to 'true' value.
 
- * jdbcdslog.printStackTrace - jdbcdslog will log calling method stack trace if this parameter set to 'true' value 
+ * jdbcdslog.printStackTrace - jdbcdslog will log calling method stack trace if this parameter set to 'true' value. Please keep in mind that turning on of this parameter can kill performance of application.
   
 =Configuration examples=
 
