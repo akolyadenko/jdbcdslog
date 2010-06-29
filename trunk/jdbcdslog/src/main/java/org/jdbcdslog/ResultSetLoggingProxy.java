@@ -25,9 +25,9 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 		try {
 			r = method.invoke(target, args);
 		} catch(Throwable e) {
-			LogUtils.handleException(e, ResultSetLogger.logger, LogUtils.createLogEntry(method, null, null, null));
+			LogUtils.handleException(e, ResultSetLogger.getLogger(), LogUtils.createLogEntry(method, null, null, null));
 		}
-		if(ResultSetLogger.logger.isInfoEnabled() && method.getName().equals("next") && ((Boolean)r).booleanValue()) {
+		if(ResultSetLogger.isInfoEnabled() && method.getName().equals("next") && ((Boolean)r).booleanValue()) {
 			String fullMethodName = method.getDeclaringClass().getName() + "." + method.getName();
 			ResultSet rs = (ResultSet)target;
 			ResultSetMetaData md = rs.getMetaData();
@@ -37,7 +37,7 @@ public class ResultSetLoggingProxy  implements InvocationHandler {
 			for(int i = 2; i <= md.getColumnCount(); i++)
 				s.append(", ").append(LogUtils.sqlValueToString(rs.getObject(i)));
 			s.append("}");
-			ResultSetLogger.logger.info(s.toString());
+			ResultSetLogger.info(s.toString());
 		} 
 		return r;
 	}
