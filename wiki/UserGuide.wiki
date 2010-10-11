@@ -285,7 +285,9 @@ After changes applied you will see jdbcdslog SQL entries in the logs.
 
 ==Configuring XA !DataSource for JBoss with log4j and MySQL==
 
-Copy jdbcdslog-*.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
+Thanks to Dmitry Egorov for contribution to this section.
+
+Copy jdbcdslog-0.1.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
 
 You already should have definition of !DataSource like:
 
