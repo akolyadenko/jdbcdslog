@@ -18,6 +18,7 @@
 [UserGuide#Configuration_examples Configuration examples]
  * [UserGuide#Configuring_jdbcdslog_on_Resource_level_for_Tomcat_and_HSQL Configuring jdbcdslog on Resource level for Tomcat and HSQL]
  * [UserGuide#Configuring_XA_DataSource_for_JBoss_with_log4j_and_Oracle Configuring jdbcdslog for XA DataSource, JBoss, log4j and Oracle]
+ * [UserGuide#Configuring_XA_DataSource_for_JBoss_with_log4j_and_MySQL Configuring jdbcdslog for XA DataSource, JBoss, log4j and MySQL]
 [UserGuide#Performance Performance]
 
 =Obtaining the library jar=
@@ -281,6 +282,52 @@ and add jdbcdslog category entry to log4j configuration file. I.e. you can add f
 }}}
 
 After changes applied you will see jdbcdslog SQL entries in the logs. 
+
+==Configuring XA !DataSource for JBoss with log4j and MySQL==
+
+Copy jdbcdslog-*.jar, slf4j-api-1.5.10.jar and slf4j-log4j12-1.5.10.jar to SERVER_ROOT/lib directory. 
+
+You already should have definition of !DataSource like:
+
+{{{
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>MySqlDS</jndi-name>
+    <connection-url>jdbc:mysql://mysql-hostname:3306/jbossdb</connection-url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <user-name>x</user-name>
+    <password>y</password>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter</exception-sorter-class-name>
+  </local-tx-datasource>
+</datasources>
+
+}}}
+
+Then you need to modify it:
+
+{{{
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>MySqlDS</jndi-name>
+    <connection-url>jdbc:jdbcdslog:mysql://mysql-hostname:3306/jbossdb;targetDriver=com.mysql.jdbc.Driver</connection-url>
+    <driver-class>org.jdbcdslog.DriverLoggingProxy</driver-class>
+    <user-name>x</user-name>
+    <password>y</password>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter</exception-sorter-class-name>
+  </local-tx-datasource>
+</datasources>
+}}}
+
+and add jdbcdslog category entry to log4j configuration file. I.e. you can add following to jboss-log4j.xml:
+
+{{{
+<category name="org.jdbcdslog">
+    <priority value="INFO"/>
+</category>
+}}}
+
+After changes applied you will see jdbcdslog SQL entries in the logs. 
+
 
 =Performance=
 
